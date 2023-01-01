@@ -1,0 +1,8 @@
+{
+	"SourceFiles": [
+		"C:\\Projects\\Gamedev\\_research\\3dplatformer_unrealcpp\\platformer3d_cpp\\Source\\platformer3d_cpp\\platformer3d_cpp.Build.cs",
+		"C:\\Projects\\Gamedev\\_research\\3dplatformer_unrealcpp\\platformer3d_cpp\\Source\\platformer3d_cpp.Target.cs",
+		"C:\\Projects\\Gamedev\\_research\\3dplatformer_unrealcpp\\platformer3d_cpp\\Source\\platformer3d_cppEditor.Target.cs"
+	],
+	"EngineVersion": "4.27.2"
+}

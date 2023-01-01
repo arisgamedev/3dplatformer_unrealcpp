@@ -1,0 +1,14 @@
+{
+	"Targets": [
+		{
+			"Name": "platformer3d_cpp",
+			"Path": "C:\\Projects\\Gamedev\\_research\\3dplatformer_unrealcpp\\platformer3d_cpp\\Source\\platformer3d_cpp.Target.cs",
+			"Type": "Game"
+		},
+		{
+			"Name": "platformer3d_cppEditor",
+			"Path": "C:\\Projects\\Gamedev\\_research\\3dplatformer_unrealcpp\\platformer3d_cpp\\Source\\platformer3d_cppEditor.Target.cs",
+			"Type": "Editor"
+		}
+	]
+}

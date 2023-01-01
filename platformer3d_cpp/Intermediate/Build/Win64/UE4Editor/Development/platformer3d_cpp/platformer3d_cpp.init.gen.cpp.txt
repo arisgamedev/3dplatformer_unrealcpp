@@ -1,0 +1,3 @@
+C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\Definitions.platformer3d_cpp.h
+C:\Program Files\Epic Games\UE_4.27\Engine\Source\Runtime\CoreUObject\Public\UObject/GeneratedCppIncludes.h
+C:\Program Files\Epic Games\UE_4.27\Engine\Source\Runtime\CoreUObject\Public\UObject/MetaData.h

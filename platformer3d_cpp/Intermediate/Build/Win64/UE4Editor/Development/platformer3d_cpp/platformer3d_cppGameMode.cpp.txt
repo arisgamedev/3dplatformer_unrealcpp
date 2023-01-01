@@ -1,0 +1,15 @@
+C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\Definitions.platformer3d_cpp.h
+C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Source\platformer3d_cpp\platformer3d_cppGameMode.h
+C:\Program Files\Epic Games\UE_4.27\Engine\Source\Runtime\Engine\Classes\GameFramework/GameModeBase.h
+C:\Program Files\Epic Games\UE_4.27\Engine\Source\Runtime\Engine\Classes\Engine/ServerStatReplicator.h
+C:\Program Files\Epic Games\UE_4.27\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\ServerStatReplicator.generated.h
+C:\Program Files\Epic Games\UE_4.27\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\GameModeBase.generated.h
+C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Inc\platformer3d_cpp\platformer3d_cppGameMode.generated.h
+C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Source\platformer3d_cpp\platformer3d_cppCharacter.h
+C:\Program Files\Epic Games\UE_4.27\Engine\Source\Runtime\Engine\Classes\GameFramework/Character.h
+C:\Program Files\Epic Games\UE_4.27\Engine\Source\Runtime\Engine\Classes\GameFramework/CharacterMovementReplication.h
+C:\Program Files\Epic Games\UE_4.27\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\CharacterMovementReplication.generated.h
+C:\Program Files\Epic Games\UE_4.27\Engine\Source\Runtime\Engine\Classes\GameFramework/RootMotionSource.h
+C:\Program Files\Epic Games\UE_4.27\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\RootMotionSource.generated.h
+C:\Program Files\Epic Games\UE_4.27\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\Character.generated.h
+C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Inc\platformer3d_cpp\platformer3d_cppCharacter.generated.h

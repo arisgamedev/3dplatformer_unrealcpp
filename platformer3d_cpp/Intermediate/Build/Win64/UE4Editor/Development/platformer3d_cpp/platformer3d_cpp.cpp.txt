@@ -1,0 +1,2 @@
+C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\Definitions.platformer3d_cpp.h
+C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Source\platformer3d_cpp\platformer3d_cpp.h

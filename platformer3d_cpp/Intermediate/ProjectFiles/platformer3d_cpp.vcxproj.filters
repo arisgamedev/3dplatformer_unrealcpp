@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="..\..\platformer3d_cpp.uproject" />
+    <Filter Include="Source">
+      <UniqueIdentifier>{68AD2FEB-CA46-4FF6-949D-1EED26A041AE}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\platformer3d_cpp.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="..\..\Source\platformer3d_cppEditor.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <Filter Include="Config">
+      <UniqueIdentifier>{6DF10459-51D6-4114-8851-68BA376538E2}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Config\DefaultEditor.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultEditorPerProjectUserSettings.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultEngine.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultGame.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultInput.ini">
+      <Filter>Config</Filter>
+    </None>
+    <Filter Include="Source\platformer3d_cpp">
+      <UniqueIdentifier>{0C8FA68B-55B6-478C-878B-90CF493A8D29}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\platformer3d_cpp\platformer3d_cpp.Build.cs">
+      <Filter>Source\platformer3d_cpp</Filter>
+    </None>
+    <ClCompile Include="..\..\Source\platformer3d_cpp\platformer3d_cpp.cpp">
+      <Filter>Source\platformer3d_cpp</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\platformer3d_cpp\platformer3d_cpp.h">
+      <Filter>Source\platformer3d_cpp</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\platformer3d_cpp\platformer3d_cppCharacter.cpp">
+      <Filter>Source\platformer3d_cpp</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\platformer3d_cpp\platformer3d_cppCharacter.h">
+      <Filter>Source\platformer3d_cpp</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\platformer3d_cpp\platformer3d_cppGameMode.cpp">
+      <Filter>Source\platformer3d_cpp</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\platformer3d_cpp\platformer3d_cppGameMode.h">
+      <Filter>Source\platformer3d_cpp</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
