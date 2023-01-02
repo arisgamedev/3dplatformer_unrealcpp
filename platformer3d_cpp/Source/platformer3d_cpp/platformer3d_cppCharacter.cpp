@@ -11,6 +11,7 @@
 #include "Components/SphereComponent.h"
 #include "Engine/Engine.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
+#include "Runtime/Engine/Classes/Kismet/KismetMathLibrary.h"
 
 //////////////////////////////////////////////////////////////////////////
 // Aplatformer3d_cppCharacter
@@ -75,6 +76,8 @@ void Aplatformer3d_cppCharacter::SetupPlayerInputComponent(class UInputComponent
 	check(PlayerInputComponent);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
+
+	PlayerInputComponent->BindAction("Crouch", IE_Pressed, this, &Aplatformer3d_cppCharacter::Crouch);
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &Aplatformer3d_cppCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &Aplatformer3d_cppCharacter::MoveRight);
@@ -157,32 +160,70 @@ void Aplatformer3d_cppCharacter::LookUpAtRate(float Rate)
 
 void Aplatformer3d_cppCharacter::MoveForward(float Value)
 {
-	if ((Controller != nullptr) && (Value != 0.0f))
+	if (IsHanging == false)
 	{
-		// find out which way is forward
-		const FRotator Rotation = Controller->GetControlRotation();
-		const FRotator YawRotation(0, Rotation.Yaw, 0);
+		if ((Controller != nullptr) && (Value != 0.0f))
+		{
+			// find out which way is forward
+			const FRotator Rotation = Controller->GetControlRotation();
+			const FRotator YawRotation(0, Rotation.Yaw, 0);
 
-		// get forward vector
-		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
-		AddMovementInput(Direction, Value);
+			// get forward vector
+			const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+			AddMovementInput(Direction, Value);
+		}
 	}
+	else if (IsHanging == true)
+	{
+		Aplatformer3d_cppCharacter::LedgeMovementForward(Value);
+	}
+	
 }
 
 void Aplatformer3d_cppCharacter::MoveRight(float Value)
 {
-	if ( (Controller != nullptr) && (Value != 0.0f) )
+	if (IsHanging == false)
 	{
-		// find out which way is right
-		const FRotator Rotation = Controller->GetControlRotation();
-		const FRotator YawRotation(0, Rotation.Yaw, 0);
+		if ((Controller != nullptr) && (Value != 0.0f))
+		{
+			// find out which way is right
+			const FRotator Rotation = Controller->GetControlRotation();
+			const FRotator YawRotation(0, Rotation.Yaw, 0);
+
+			// get right vector 
+			const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+			// add movement in that direction
+			AddMovementInput(Direction, Value);
+		}
+		else if (true)
+		{
+
+		}
+	}
 	
-		// get right vector 
-		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
-		// add movement in that direction
-		AddMovementInput(Direction, Value);
+}
+
+void Aplatformer3d_cppCharacter::Crouch()
+{
+	if (IsHanging == false)
+	{
+		//crouch functin here
+	}
+	else if (IsHanging == true)
+	{
+		Aplatformer3d_cppCharacter::ReleaseLedge();
+
 	}
 }
+
+void Aplatformer3d_cppCharacter::ForceStopMovementCompletely()
+{
+	GetCharacterMovement()->StopMovementImmediately();
+}
+
+
+
+
 
 
 /*SPHERE TRACER TO CHECK IF WE PERFORM THE OTHER TRACES AND STUFF*/
@@ -297,10 +338,6 @@ void Aplatformer3d_cppCharacter::CheckLedgeTraceResult()
 }
 
 
-void Aplatformer3d_cppCharacter::HangFromLedge()
-{
-
-}
 
 void Aplatformer3d_cppCharacter::WallTracer()
 {
@@ -318,6 +355,45 @@ void Aplatformer3d_cppCharacter::WallTracer()
 
 	WallTrace = UKismetSystemLibrary::SphereTraceSingle(GetWorld(), Start, End, TraceRadius, UEngineTypes::ConvertToTraceType(ECC_GameTraceChannel2), false, ActorsToIgnore, EDrawDebugTrace::ForDuration, HitResult, true, FLinearColor::Red, FLinearColor::Green, 0.1f); //ECC_GameTraceChannel2 = LedgeTracer in DefaultEngine.ini
 
+	if (WallTrace == true)
+	{
+		FrontWallTraceDistance = HitResult.Distance;
+		WallTraceImpact = HitResult.ImpactPoint;
+		WallNormal = HitResult.ImpactNormal;
+
+	}
+
+}
+
+
+void Aplatformer3d_cppCharacter::HangFromLedge()
+{
+	if (LedgeFloorBelow == false)
+	{
+		if (CanMove == true)
+		{
+			//setup MoveComponentTo variables
+			FVector ModWallNormal = WallNormal * FVector(42.f, 42.f, 0.f);
+			float LedgeHeightVerticalOffset = 45.f; //lower values move the character up when hanging
+			float TargetRelativeLocationX = ModWallNormal.X + WallTraceImpact.X;
+			float TargetRelativeLocationY = ModWallNormal.Y + WallTraceImpact.Y;
+			float TargetRelativeLocationZ = LedgeHeight.Z + LedgeHeightVerticalOffset;
+			FVector TargetRelativeLocation = FVector(TargetRelativeLocationX, TargetRelativeLocationY, TargetRelativeLocationZ);
+
+			FVector InvertedNormal = WallNormal * FVector(-1.f, -1.f, 0.f);
+			FVector UpVector = GetCapsuleComponent()->GetUpVector();
+			FRotator TargetRelativeRotation = UKismetMathLibrary::MakeRotFromXZ(InvertedNormal, UpVector);
+			//FHitResult* OutSweepHitResult;
+			//ETeleportType Teleport;
+			GetCapsuleComponent()->SetRelativeRotation(TargetRelativeRotation, false/*, OutSweepHitResult, Teleport*/);
+
+			float OverTime = 0.1f;
+			TEnumAsByte< EMoveComponentAction::Type > MoveAction;
+			FLatentActionInfo LatentInfo;
+
+			UKismetSystemLibrary::MoveComponentTo(GetCapsuleComponent(), TargetRelativeLocation, TargetRelativeRotation, false, false, OverTime, true, MoveAction, LatentInfo);
+		}
+	}
 }
 
 
@@ -326,19 +402,56 @@ void Aplatformer3d_cppCharacter::MoveToLedge() // todavia faltan los montones de
 	if (CanGrabLedge == true)
 	{
 		//setup MoveComponentTo variables
-		FVector TargetRelativeLocation;
-		FRotator TargetRelativeRotation;
+		FVector ModWallNormal = WallNormal * FVector(42.f, 42.f, 0.f);
+		float LedgeHeightVerticalOffset = 45.f; //lower values move character up when hanging
+		float TargetRelativeLocationX = ModWallNormal.X + WallTraceImpact.X;
+		float TargetRelativeLocationY = ModWallNormal.Y + WallTraceImpact.Y;
+		float TargetRelativeLocationZ = LedgeHeight.Z + LedgeHeightVerticalOffset;
+		FVector TargetRelativeLocation = FVector(TargetRelativeLocationX, TargetRelativeLocationY, TargetRelativeLocationZ);
+
+		FVector InvertedNormal = WallNormal * FVector(-1.f, -1.f, 0.f);
+		FVector UpVector = GetCapsuleComponent()->GetUpVector();
+		FRotator TargetRelativeRotation = UKismetMathLibrary::MakeRotFromXZ(InvertedNormal, UpVector);
+
+		float OverTime = 0.1f;
+		TEnumAsByte< EMoveComponentAction::Type > MoveAction;
+		FLatentActionInfo LatentInfo;
+
 
 
 		GetCharacterMovement()->SetMovementMode(MOVE_Flying);
 		CanGrabLedge = false;
 		IsCrouchingDownLedge = false;
 		IsJumpingRailLedge;
-		//UKismetSystemLibrary::MoveComponentTo(UCapsuleComponent, TargetRelativeLocation);
 		IsHanging = true;
+		UKismetSystemLibrary::MoveComponentTo(GetCapsuleComponent(), TargetRelativeLocation, TargetRelativeRotation, false, false, OverTime, true, MoveAction, LatentInfo);
+		
+		GetWorld()->GetTimerManager().SetTimer(MoveToLedgeTimerHandle, this, &Aplatformer3d_cppCharacter::ForceStopMovementCompletely, 0.1f, false);
 
 	}
 	
 }
+
+
+void Aplatformer3d_cppCharacter::LedgeMovementForward(float Value)
+{
+}
+
+void Aplatformer3d_cppCharacter::LedgeMovementRight(float Value)
+{
+}
+
+void Aplatformer3d_cppCharacter::ReleaseLedge()
+{
+	GetCharacterMovement()->SetMovementMode(MOVE_Walking);
+	IsHanging = false;
+	GetWorld()->GetTimerManager().SetTimer(ReleaseLedgeTimerHandle, this, &Aplatformer3d_cppCharacter::SetCanGrabLedge, 0.5f, false);
+}
+
+void Aplatformer3d_cppCharacter::SetCanGrabLedge()
+{
+	CanGrabLedge = true;
+}
+
 
 

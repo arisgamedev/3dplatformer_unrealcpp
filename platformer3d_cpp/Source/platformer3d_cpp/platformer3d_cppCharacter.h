@@ -47,6 +47,12 @@ protected:
 	/** Called for side to side input */
 	void MoveRight(float Value);
 
+	/** Called for crouching button */
+	void Crouch();
+
+	/** Called to stop movement completely */
+	void ForceStopMovementCompletely();
+
 	/** 
 	 * Called via input to turn at a given rate. 
 	 * @param Rate	This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
@@ -95,6 +101,8 @@ public:
 
 	bool CanTrace = false;
 
+	bool CanMove = true;
+
 	/*LEDGE HEIGHT TRACING FUNCTIONS AND VARIABLES*/
 	//ledge height tracing
 	void LedgeHeightTracer();
@@ -113,12 +121,21 @@ public:
 
 	//move character to ledge after successful trace
 	void MoveToLedge();
+	
 
 	//hang from ledge to move around
 	void HangFromLedge();
 
 	//trace from character to get wall normal
 	void WallTracer();
+
+	//move along ledge
+	void LedgeMovementForward(float Value);
+	void LedgeMovementRight(float Value);
+
+	//release ledge
+	void ReleaseLedge();
+	void SetCanGrabLedge();
 
 
 	//variables used to place character in correct position and orientation
@@ -128,17 +145,28 @@ public:
 	bool HitRight = false;
 	bool WallTrace = false;
 
+	//ledge traces results
 	float LedgeDistanceCheck;
-	FVector LedgeHeight;
-	FVector WallNormal;
+	FVector LedgeHeight;	
 	AActor* HitWall;
+
+	//ledge platforming vars
 	bool IsHanging = false;
 	bool CanGrabLedge = true;
 	bool IsCrouchingDownLedge = false;
 	bool IsJumpingRailLedge = false;
 	bool CanClimbUpObject = false;
+	bool LedgeFloorBelow = false;
 
 
+	//WallTracer results
+	float FrontWallTraceDistance;
+	FVector WallTraceImpact;
+	FVector WallNormal;
+
+	//timers
+	FTimerHandle MoveToLedgeTimerHandle;
+	FTimerHandle ReleaseLedgeTimerHandle;
 
 
 
