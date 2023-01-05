@@ -51,6 +51,7 @@ protected:
 	void Crouch();
 
 	/** Called to stop movement completely */
+	UFUNCTION() //para que sea llamada desde FName
 	void ForceStopMovementCompletely();
 
 	/** 

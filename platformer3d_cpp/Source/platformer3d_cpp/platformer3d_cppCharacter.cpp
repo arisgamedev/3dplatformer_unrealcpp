@@ -33,8 +33,12 @@ Aplatformer3d_cppCharacter::Aplatformer3d_cppCharacter()
 	// Configure character movement
 	GetCharacterMovement()->bOrientRotationToMovement = true; // Character moves in the direction of input...	
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f); // ...at this rotation rate
-	GetCharacterMovement()->JumpZVelocity = 600.f;
-	GetCharacterMovement()->AirControl = 0.2f;
+	GetCharacterMovement()->JumpZVelocity = 800.f;
+	GetCharacterMovement()->AirControl = 0.f;
+	GetCharacterMovement()->MaxFlySpeed = 200.0f;
+	GetCharacterMovement()->SetWalkableFloorAngle(30.f);
+	GetCharacterMovement()->CrouchedHalfHeight = 30.f;
+
 
 	// Create a camera boom (pulls in towards the player if there is a collision)
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
@@ -290,7 +294,7 @@ void Aplatformer3d_cppCharacter::LedgeTraceFront()
 
 	HitFront = UKismetSystemLibrary::SphereTraceSingle(GetWorld(), Start, End, TraceRadius, UEngineTypes::ConvertToTraceType(ECC_GameTraceChannel2), false, ActorsToIgnore, EDrawDebugTrace::ForDuration, HitResult, true, FLinearColor::Yellow, FLinearColor::Blue, 0.1f); //ECC_GameTraceChannel2 = LedgeTracer in DefaultEngine.ini
 	
-	if (HitFront == true && HitResult.ImpactNormal.Z )
+	if (HitFront == true && HitResult.ImpactNormal.Z > 0.9f )
 	{
 		//just printing variables to check it's working
 		LedgeHeight = HitResult.ImpactPoint;
@@ -399,7 +403,7 @@ void Aplatformer3d_cppCharacter::HangFromLedge()
 
 void Aplatformer3d_cppCharacter::MoveToLedge() // todavia faltan los montones de checks, pero eso despues porque quiero probar funcionalidad
 {
-	if (CanGrabLedge == true)
+	if ( (GetCharacterMovement()->MovementMode == MOVE_Falling || (GetCharacterMovement()->MovementMode == MOVE_Flying && (IsJumpingRailLedge == true || IsCrouchingDownLedge == true)) )  &&   CanGrabLedge == true  &&  CanClimbUpObject == false )
 	{
 		//setup MoveComponentTo variables
 		FVector ModWallNormal = WallNormal * FVector(42.f, 42.f, 0.f);
@@ -414,7 +418,7 @@ void Aplatformer3d_cppCharacter::MoveToLedge() // todavia faltan los montones de
 		FRotator TargetRelativeRotation = UKismetMathLibrary::MakeRotFromXZ(InvertedNormal, UpVector);
 
 		float OverTime = 0.1f;
-		TEnumAsByte< EMoveComponentAction::Type > MoveAction;
+		//TEnumAsByte< EMoveComponentAction::Move > MoveAction;
 		FLatentActionInfo LatentInfo;
 
 
@@ -424,9 +428,11 @@ void Aplatformer3d_cppCharacter::MoveToLedge() // todavia faltan los montones de
 		IsCrouchingDownLedge = false;
 		IsJumpingRailLedge;
 		IsHanging = true;
-		UKismetSystemLibrary::MoveComponentTo(GetCapsuleComponent(), TargetRelativeLocation, TargetRelativeRotation, false, false, OverTime, true, MoveAction, LatentInfo);
+		ForceStopMovementCompletely();
+		UKismetSystemLibrary::MoveComponentTo(GetCapsuleComponent(), TargetRelativeLocation, TargetRelativeRotation, false, false, OverTime, true, EMoveComponentAction::Move, LatentInfo);
+		GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Cyan, FString::Printf(TEXT("LedgeHeight: %f | TargetRelLocation: %f"), LedgeHeight.Z, TargetRelativeLocationZ));
 		
-		GetWorld()->GetTimerManager().SetTimer(MoveToLedgeTimerHandle, this, &Aplatformer3d_cppCharacter::ForceStopMovementCompletely, 0.1f, false);
+		//GetWorld()->GetTimerManager().SetTimer(MoveToLedgeTimerHandle, this, &Aplatformer3d_cppCharacter::ForceStopMovementCompletely, 0.1f, false);
 
 	}
 	

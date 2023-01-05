@@ -48,14 +48,46 @@ void EmptyLinkFunctionForGeneratedCodeplatformer3d_cppCharacter() {}
 		P_THIS->OnSphereTracerOverlapBegin(Z_Param_OverlappedComp,Z_Param_OtherActor,Z_Param_OtherComp,Z_Param_OtherBodyIndex,Z_Param_bFromSweep,Z_Param_Out_SweepResult);
 		P_NATIVE_END;
 	}
+	DEFINE_FUNCTION(Aplatformer3d_cppCharacter::execForceStopMovementCompletely)
+	{
+		P_FINISH;
+		P_NATIVE_BEGIN;
+		P_THIS->ForceStopMovementCompletely();
+		P_NATIVE_END;
+	}
 	void Aplatformer3d_cppCharacter::StaticRegisterNativesAplatformer3d_cppCharacter()
 	{
 		UClass* Class = Aplatformer3d_cppCharacter::StaticClass();
 		static const FNameNativePtrPair Funcs[] = {
+			{ "ForceStopMovementCompletely", &Aplatformer3d_cppCharacter::execForceStopMovementCompletely },
 			{ "OnSphereTracerOverlapBegin", &Aplatformer3d_cppCharacter::execOnSphereTracerOverlapBegin },
 			{ "OnSphereTracerOverlapEnd", &Aplatformer3d_cppCharacter::execOnSphereTracerOverlapEnd },
 		};
 		FNativeFunctionRegistrar::RegisterFunctions(Class, Funcs, UE_ARRAY_COUNT(Funcs));
+	}
+	struct Z_Construct_UFunction_Aplatformer3d_cppCharacter_ForceStopMovementCompletely_Statics
+	{
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_Aplatformer3d_cppCharacter_ForceStopMovementCompletely_Statics::Function_MetaDataParams[] = {
+		{ "Comment", "/** Called to stop movement completely *///para que sea llamada desde FName\n" },
+		{ "ModuleRelativePath", "platformer3d_cppCharacter.h" },
+		{ "ToolTip", "Called to stop movement completely //para que sea llamada desde FName" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_Aplatformer3d_cppCharacter_ForceStopMovementCompletely_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_Aplatformer3d_cppCharacter, nullptr, "ForceStopMovementCompletely", nullptr, nullptr, 0, nullptr, 0, RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00080401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_Aplatformer3d_cppCharacter_ForceStopMovementCompletely_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_Aplatformer3d_cppCharacter_ForceStopMovementCompletely_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_Aplatformer3d_cppCharacter_ForceStopMovementCompletely()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_Aplatformer3d_cppCharacter_ForceStopMovementCompletely_Statics::FuncParams);
+		}
+		return ReturnFunction;
 	}
 	struct Z_Construct_UFunction_Aplatformer3d_cppCharacter_OnSphereTracerOverlapBegin_Statics
 	{
@@ -240,6 +272,7 @@ void EmptyLinkFunctionForGeneratedCodeplatformer3d_cppCharacter() {}
 		(UObject* (*)())Z_Construct_UPackage__Script_platformer3d_cpp,
 	};
 	const FClassFunctionLinkInfo Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::FuncInfo[] = {
+		{ &Z_Construct_UFunction_Aplatformer3d_cppCharacter_ForceStopMovementCompletely, "ForceStopMovementCompletely" }, // 921648656
 		{ &Z_Construct_UFunction_Aplatformer3d_cppCharacter_OnSphereTracerOverlapBegin, "OnSphereTracerOverlapBegin" }, // 1328378053
 		{ &Z_Construct_UFunction_Aplatformer3d_cppCharacter_OnSphereTracerOverlapEnd, "OnSphereTracerOverlapEnd" }, // 2915238670
 	};
@@ -334,7 +367,7 @@ void EmptyLinkFunctionForGeneratedCodeplatformer3d_cppCharacter() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(Aplatformer3d_cppCharacter, 2011474298);
+	IMPLEMENT_CLASS(Aplatformer3d_cppCharacter, 2190278467);
 	template<> PLATFORMER3D_CPP_API UClass* StaticClass<Aplatformer3d_cppCharacter>()
 	{
 		return Aplatformer3d_cppCharacter::StaticClass();

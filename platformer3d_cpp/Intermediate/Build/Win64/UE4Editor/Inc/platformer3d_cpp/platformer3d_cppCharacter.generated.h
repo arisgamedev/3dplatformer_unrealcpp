@@ -20,13 +20,15 @@ struct FHitResult;
 #define platformer3d_cpp_Source_platformer3d_cpp_platformer3d_cppCharacter_h_12_RPC_WRAPPERS \
  \
 	DECLARE_FUNCTION(execOnSphereTracerOverlapEnd); \
-	DECLARE_FUNCTION(execOnSphereTracerOverlapBegin);
+	DECLARE_FUNCTION(execOnSphereTracerOverlapBegin); \
+	DECLARE_FUNCTION(execForceStopMovementCompletely);
 
 
 #define platformer3d_cpp_Source_platformer3d_cpp_platformer3d_cppCharacter_h_12_RPC_WRAPPERS_NO_PURE_DECLS \
  \
 	DECLARE_FUNCTION(execOnSphereTracerOverlapEnd); \
-	DECLARE_FUNCTION(execOnSphereTracerOverlapBegin);
+	DECLARE_FUNCTION(execOnSphereTracerOverlapBegin); \
+	DECLARE_FUNCTION(execForceStopMovementCompletely);
 
 
 #define platformer3d_cpp_Source_platformer3d_cpp_platformer3d_cppCharacter_h_12_INCLASS_NO_PURE_DECLS \
