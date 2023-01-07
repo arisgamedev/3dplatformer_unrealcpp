@@ -23,6 +23,7 @@ void EmptyLinkFunctionForGeneratedCodeplatformer3d_cppCharacter() {}
 	ENGINE_API UClass* Z_Construct_UClass_USpringArmComponent_NoRegister();
 	ENGINE_API UClass* Z_Construct_UClass_UCameraComponent_NoRegister();
 	ENGINE_API UClass* Z_Construct_UClass_USphereComponent_NoRegister();
+	COREUOBJECT_API UScriptStruct* Z_Construct_UScriptStruct_FVector();
 // End Cross Module References
 	DEFINE_FUNCTION(Aplatformer3d_cppCharacter::execOnSphereTracerOverlapEnd)
 	{
@@ -263,6 +264,10 @@ void EmptyLinkFunctionForGeneratedCodeplatformer3d_cppCharacter() {}
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_SphereTracer_MetaData[];
 #endif
 		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_SphereTracer;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_MyTestVector_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FStructPropertyParams NewProp_MyTestVector;
 		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
 		static const FCppClassTypeInfoStatic StaticCppClassTypeInfo;
 		static const UE4CodeGen_Private::FClassParams ClassParams;
@@ -333,12 +338,22 @@ void EmptyLinkFunctionForGeneratedCodeplatformer3d_cppCharacter() {}
 	};
 #endif
 	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_SphereTracer = { "SphereTracer", nullptr, (EPropertyFlags)0x001000000008000d, UE4CodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(Aplatformer3d_cppCharacter, SphereTracer), Z_Construct_UClass_USphereComponent_NoRegister, METADATA_PARAMS(Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_SphereTracer_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_SphereTracer_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_MyTestVector_MetaData[] = {
+		{ "Category", "CharVariables" },
+		{ "Comment", "//Variables visible in unreal blueprints\n" },
+		{ "ModuleRelativePath", "platformer3d_cppCharacter.h" },
+		{ "ToolTip", "Variables visible in unreal blueprints" },
+	};
+#endif
+	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_MyTestVector = { "MyTestVector", nullptr, (EPropertyFlags)0x0010000000020015, UE4CodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(Aplatformer3d_cppCharacter, MyTestVector), Z_Construct_UScriptStruct_FVector, METADATA_PARAMS(Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_MyTestVector_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_MyTestVector_MetaData)) };
 	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::PropPointers[] = {
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_CameraBoom,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_FollowCamera,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_BaseTurnRate,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_BaseLookUpRate,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_SphereTracer,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_MyTestVector,
 	};
 	const FCppClassTypeInfoStatic Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::StaticCppClassTypeInfo = {
 		TCppClassTypeTraits<Aplatformer3d_cppCharacter>::IsAbstract,
@@ -367,7 +382,7 @@ void EmptyLinkFunctionForGeneratedCodeplatformer3d_cppCharacter() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(Aplatformer3d_cppCharacter, 2190278467);
+	IMPLEMENT_CLASS(Aplatformer3d_cppCharacter, 461637243);
 	template<> PLATFORMER3D_CPP_API UClass* StaticClass<Aplatformer3d_cppCharacter>()
 	{
 		return Aplatformer3d_cppCharacter::StaticClass();

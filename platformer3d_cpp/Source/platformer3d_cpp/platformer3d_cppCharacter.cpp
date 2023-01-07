@@ -378,10 +378,10 @@ void Aplatformer3d_cppCharacter::HangFromLedge()
 		{
 			//setup MoveComponentTo variables
 			FVector ModWallNormal = WallNormal * FVector(42.f, 42.f, 0.f);
-			float LedgeHeightVerticalOffset = 45.f; //lower values move the character up when hanging
+			float LedgeHeightVerticalOffset = 25.f; //lower values move character up when hanging
 			float TargetRelativeLocationX = ModWallNormal.X + WallTraceImpact.X;
 			float TargetRelativeLocationY = ModWallNormal.Y + WallTraceImpact.Y;
-			float TargetRelativeLocationZ = LedgeHeight.Z + LedgeHeightVerticalOffset;
+			float TargetRelativeLocationZ = LedgeHeight.Z - LedgeHeightVerticalOffset;
 			FVector TargetRelativeLocation = FVector(TargetRelativeLocationX, TargetRelativeLocationY, TargetRelativeLocationZ);
 
 			FVector InvertedNormal = WallNormal * FVector(-1.f, -1.f, 0.f);
@@ -405,37 +405,40 @@ void Aplatformer3d_cppCharacter::MoveToLedge() // todavia faltan los montones de
 {
 	if ( (GetCharacterMovement()->MovementMode == MOVE_Falling || (GetCharacterMovement()->MovementMode == MOVE_Flying && (IsJumpingRailLedge == true || IsCrouchingDownLedge == true)) )  &&   CanGrabLedge == true  &&  CanClimbUpObject == false )
 	{
-		//setup MoveComponentTo variables
-		FVector ModWallNormal = WallNormal * FVector(42.f, 42.f, 0.f);
-		float LedgeHeightVerticalOffset = 45.f; //lower values move character up when hanging
-		float TargetRelativeLocationX = ModWallNormal.X + WallTraceImpact.X;
-		float TargetRelativeLocationY = ModWallNormal.Y + WallTraceImpact.Y;
-		float TargetRelativeLocationZ = LedgeHeight.Z + LedgeHeightVerticalOffset;
-		FVector TargetRelativeLocation = FVector(TargetRelativeLocationX, TargetRelativeLocationY, TargetRelativeLocationZ);
-
-		FVector InvertedNormal = WallNormal * FVector(-1.f, -1.f, 0.f);
-		FVector UpVector = GetCapsuleComponent()->GetUpVector();
-		FRotator TargetRelativeRotation = UKismetMathLibrary::MakeRotFromXZ(InvertedNormal, UpVector);
-
-		float OverTime = 0.1f;
-		//TEnumAsByte< EMoveComponentAction::Move > MoveAction;
-		FLatentActionInfo LatentInfo;
-
-
-
-		GetCharacterMovement()->SetMovementMode(MOVE_Flying);
-		CanGrabLedge = false;
-		IsCrouchingDownLedge = false;
-		IsJumpingRailLedge;
-		IsHanging = true;
-		ForceStopMovementCompletely();
-		UKismetSystemLibrary::MoveComponentTo(GetCapsuleComponent(), TargetRelativeLocation, TargetRelativeRotation, false, false, OverTime, true, EMoveComponentAction::Move, LatentInfo);
-		GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Cyan, FString::Printf(TEXT("LedgeHeight: %f | TargetRelLocation: %f"), LedgeHeight.Z, TargetRelativeLocationZ));
+		GetCharacterMovement()->SetMovementMode(MOVE_Flying);		
 		
-		//GetWorld()->GetTimerManager().SetTimer(MoveToLedgeTimerHandle, this, &Aplatformer3d_cppCharacter::ForceStopMovementCompletely, 0.1f, false);
-
+		GetWorld()->GetTimerManager().SetTimer(MoveToLedgeTimerHandle, this, &Aplatformer3d_cppCharacter::MoveComponentToLedge, 0.1f, false);
 	}
 	
+}
+
+void Aplatformer3d_cppCharacter::MoveComponentToLedge()
+{
+	//setup MoveComponentTo variables
+	FVector ModWallNormal = WallNormal * FVector(42.f, 42.f, 0.f);
+	float LedgeHeightVerticalOffset = 25.f; //lower values move character up when hanging
+	float TargetRelativeLocationX = ModWallNormal.X + WallTraceImpact.X;
+	float TargetRelativeLocationY = ModWallNormal.Y + WallTraceImpact.Y;
+	float TargetRelativeLocationZ = LedgeHeight.Z - LedgeHeightVerticalOffset;
+	FVector TargetRelativeLocation = FVector(TargetRelativeLocationX, TargetRelativeLocationY, TargetRelativeLocationZ);
+
+	GEngine->AddOnScreenDebugMessage(-1, 50.f, FColor::Yellow, FString::Printf(TEXT("TargetRelLocation: %f %f %f"), TargetRelativeLocationX, TargetRelativeLocationY, TargetRelativeLocationZ));
+
+	FVector InvertedNormal = WallNormal * FVector(-1.f, -1.f, 0.f);
+	FVector UpVector = GetCapsuleComponent()->GetUpVector();
+	FRotator TargetRelativeRotation = UKismetMathLibrary::MakeRotFromXZ(InvertedNormal, UpVector);
+
+	float OverTime = 0.1f;
+	//TEnumAsByte< EMoveComponentAction::Move > MoveAction;
+	FLatentActionInfo LatentInfo;
+	CanGrabLedge = false;
+	IsCrouchingDownLedge = false;
+	IsJumpingRailLedge;
+	//IsHanging = true;
+	//ForceStopMovementCompletely();
+	GetCapsuleComponent()->SetWorldLocation(TargetRelativeLocation);
+	GetCapsuleComponent()->SetWorldRotation(TargetRelativeRotation);
+	//UKismetSystemLibrary::MoveComponentTo(GetCapsuleComponent(), TargetRelativeLocation, TargetRelativeRotation, false, false, OverTime, true, EMoveComponentAction::Move, LatentInfo); //not working. Other option is to call it from Unreal Blueprints
 }
 
 

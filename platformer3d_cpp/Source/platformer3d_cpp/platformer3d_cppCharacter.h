@@ -122,7 +122,7 @@ public:
 
 	//move character to ledge after successful trace
 	void MoveToLedge();
-	
+	void MoveComponentToLedge();
 
 	//hang from ledge to move around
 	void HangFromLedge();
@@ -168,6 +168,10 @@ public:
 	//timers
 	FTimerHandle MoveToLedgeTimerHandle;
 	FTimerHandle ReleaseLedgeTimerHandle;
+
+	//Variables visible in unreal blueprints
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = CharVariables)
+	FVector MyTestVector;
 
 
 
