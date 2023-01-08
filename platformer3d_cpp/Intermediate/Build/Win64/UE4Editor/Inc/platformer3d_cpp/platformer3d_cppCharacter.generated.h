@@ -31,6 +31,8 @@ struct FHitResult;
 	DECLARE_FUNCTION(execForceStopMovementCompletely);
 
 
+#define platformer3d_cpp_Source_platformer3d_cpp_platformer3d_cppCharacter_h_12_EVENT_PARMS
+#define platformer3d_cpp_Source_platformer3d_cpp_platformer3d_cppCharacter_h_12_CALLBACK_WRAPPERS
 #define platformer3d_cpp_Source_platformer3d_cpp_platformer3d_cppCharacter_h_12_INCLASS_NO_PURE_DECLS \
 private: \
 	static void StaticRegisterNativesAplatformer3d_cppCharacter(); \
@@ -75,16 +77,24 @@ public: \
 
 #define platformer3d_cpp_Source_platformer3d_cpp_platformer3d_cppCharacter_h_12_PRIVATE_PROPERTY_OFFSET \
 	FORCEINLINE static uint32 __PPO__CameraBoom() { return STRUCT_OFFSET(Aplatformer3d_cppCharacter, CameraBoom); } \
-	FORCEINLINE static uint32 __PPO__FollowCamera() { return STRUCT_OFFSET(Aplatformer3d_cppCharacter, FollowCamera); }
+	FORCEINLINE static uint32 __PPO__FollowCamera() { return STRUCT_OFFSET(Aplatformer3d_cppCharacter, FollowCamera); } \
+	FORCEINLINE static uint32 __PPO__CanMove() { return STRUCT_OFFSET(Aplatformer3d_cppCharacter, CanMove); } \
+	FORCEINLINE static uint32 __PPO__CanClimbUpLedge() { return STRUCT_OFFSET(Aplatformer3d_cppCharacter, CanClimbUpLedge); } \
+	FORCEINLINE static uint32 __PPO__LedgeTargetRelativeLocation() { return STRUCT_OFFSET(Aplatformer3d_cppCharacter, LedgeTargetRelativeLocation); } \
+	FORCEINLINE static uint32 __PPO__LedgeTargetRelativeRotation() { return STRUCT_OFFSET(Aplatformer3d_cppCharacter, LedgeTargetRelativeRotation); }
 
 
-#define platformer3d_cpp_Source_platformer3d_cpp_platformer3d_cppCharacter_h_9_PROLOG
+#define platformer3d_cpp_Source_platformer3d_cpp_platformer3d_cppCharacter_h_9_PROLOG \
+	platformer3d_cpp_Source_platformer3d_cpp_platformer3d_cppCharacter_h_12_EVENT_PARMS
+
+
 #define platformer3d_cpp_Source_platformer3d_cpp_platformer3d_cppCharacter_h_12_GENERATED_BODY_LEGACY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
 	platformer3d_cpp_Source_platformer3d_cpp_platformer3d_cppCharacter_h_12_PRIVATE_PROPERTY_OFFSET \
 	platformer3d_cpp_Source_platformer3d_cpp_platformer3d_cppCharacter_h_12_SPARSE_DATA \
 	platformer3d_cpp_Source_platformer3d_cpp_platformer3d_cppCharacter_h_12_RPC_WRAPPERS \
+	platformer3d_cpp_Source_platformer3d_cpp_platformer3d_cppCharacter_h_12_CALLBACK_WRAPPERS \
 	platformer3d_cpp_Source_platformer3d_cpp_platformer3d_cppCharacter_h_12_INCLASS \
 	platformer3d_cpp_Source_platformer3d_cpp_platformer3d_cppCharacter_h_12_STANDARD_CONSTRUCTORS \
 public: \
@@ -97,6 +107,7 @@ public: \
 	platformer3d_cpp_Source_platformer3d_cpp_platformer3d_cppCharacter_h_12_PRIVATE_PROPERTY_OFFSET \
 	platformer3d_cpp_Source_platformer3d_cpp_platformer3d_cppCharacter_h_12_SPARSE_DATA \
 	platformer3d_cpp_Source_platformer3d_cpp_platformer3d_cppCharacter_h_12_RPC_WRAPPERS_NO_PURE_DECLS \
+	platformer3d_cpp_Source_platformer3d_cpp_platformer3d_cppCharacter_h_12_CALLBACK_WRAPPERS \
 	platformer3d_cpp_Source_platformer3d_cpp_platformer3d_cppCharacter_h_12_INCLASS_NO_PURE_DECLS \
 	platformer3d_cpp_Source_platformer3d_cpp_platformer3d_cppCharacter_h_12_ENHANCED_CONSTRUCTORS \
 private: \

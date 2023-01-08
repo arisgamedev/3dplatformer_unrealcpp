@@ -1,12 +1,28 @@
 ﻿  Using 'git status' to determine working set for adaptive non-unity build (C:\Projects\Gamedev\_research\3dplatformer_unrealcpp).
-  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-0060.lib
-  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-1048.lib
-  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-2571.lib
-  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-2740.lib
-  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-3637.lib
-  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-4178.lib
-  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-6001.lib
-  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-8125.lib
+  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-0563.lib
+  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-0622.lib
+  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-0657.lib
+  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-1111.lib
+  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-1544.lib
+  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-2728.lib
+  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-3102.lib
+  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-3652.lib
+  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-3697.lib
+  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-3725.lib
+  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-3800.lib
+  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-4190.lib
+  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-4401.lib
+  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-4464.lib
+  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-4681.lib
+  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-5919.lib
+  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-6428.lib
+  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-6436.lib
+  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-6664.lib
+  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-7199.lib
+  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-7761.lib
+  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-7949.lib
+  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-8019.lib
+  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-9512.lib
   Building platformer3d_cppEditor...
   Using Visual Studio 2019 14.29.30146 toolchain (C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133) and Windows 10.0.18362.0 SDK (C:\Program Files (x86)\Windows Kits\10).
   Building 3 actions with 12 processes...
@@ -15,5 +31,5 @@
     [2/3] UE4Editor-platformer3d_cpp.dll
        Creating library C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp.suppressed.lib and object C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp.suppressed.exp
     [3/3] platformer3d_cppEditor.target
-  Total time in Parallel executor: 1.27 seconds
-  Total execution time: 2.17 seconds
+  Total time in Parallel executor: 1.46 seconds
+  Total execution time: 2.31 seconds

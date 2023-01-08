@@ -122,6 +122,7 @@ void Aplatformer3d_cppCharacter::Tick(float DeltaTime)
 		Aplatformer3d_cppCharacter::LedgeHeightTracer();
 		Aplatformer3d_cppCharacter::WallTracer();
 		
+		
 	}
 
 
@@ -245,9 +246,144 @@ void Aplatformer3d_cppCharacter::OnSphereTracerOverlapEnd(UPrimitiveComponent* O
 }
 
 
+/*WALL TRACING FUNCTIONS*/
+
+void Aplatformer3d_cppCharacter::WallTracer()
+{
+	Aplatformer3d_cppCharacter::WallLeftTracer();
+	Aplatformer3d_cppCharacter::WallRightTracer();
+	Aplatformer3d_cppCharacter::TraceAboveHead();
+	float ForwardDistance = 75.f;
+	const FVector PlayerPos = Player->GetActorLocation();
+	const FVector TraceForwardDistance = Player->GetActorForwardVector() * ForwardDistance;
+	const FVector Start = PlayerPos;
+	const FVector End = PlayerPos + TraceForwardDistance;
+
+	float TraceRadius = 10.f;
+	TArray<AActor*> ActorsToIgnore;
+	ActorsToIgnore.Add(Player);
+
+	FHitResult HitResult;
+
+	WallTrace = UKismetSystemLibrary::SphereTraceSingle(GetWorld(), Start, End, TraceRadius, UEngineTypes::ConvertToTraceType(ECC_GameTraceChannel2), false, ActorsToIgnore, EDrawDebugTrace::ForDuration, HitResult, true, FLinearColor::Red, FLinearColor::Green, 0.1f); //ECC_GameTraceChannel2 = LedgeTracer in DefaultEngine.ini
+
+	if (WallTrace == true)
+	{
+		FrontWallTraceDistance = HitResult.Distance;
+		WallTraceImpact = HitResult.ImpactPoint;
+		WallNormal = HitResult.ImpactNormal;
+
+	}
+
+}
+
+void Aplatformer3d_cppCharacter::TraceAboveHead()
+{
+	if (IsHanging == true)
+	{
+		const FVector PlayerPos = Player->GetActorLocation();
+		const FVector Start = PlayerPos + Player->GetActorUpVector() * 100;// +(0.f, 0.f, 100.f);	
+		const FVector ForwardVector = Player->GetActorForwardVector();
+		float ModifiedForwardVectorX = ForwardVector.X * 150.f;
+		float ModifiedForwardVectorY = ForwardVector.Y * 150.f;
+		float ModifiedForwardVectorZ = ForwardVector.Z;
+		const FVector ModifiedForwardVector = FVector(ModifiedForwardVectorX, ModifiedForwardVectorY, ModifiedForwardVectorZ);
+		const FVector End = Start + ModifiedForwardVector;
+
+		float TraceRadius = 10.f;
+		TArray<TEnumAsByte<EObjectTypeQuery>> ObjectTypesArray; // object types to trace
+		ObjectTypesArray.Add(UEngineTypes::ConvertToObjectType(ECC_WorldStatic));
+		TArray<AActor*> ActorsToIgnore;
+		ActorsToIgnore.Add(Player);
+		FHitResult HitResult;
+
+		WallTrace = UKismetSystemLibrary::SphereTraceSingleForObjects(GetWorld(), Start, End, TraceRadius, ObjectTypesArray, false, ActorsToIgnore, EDrawDebugTrace::ForDuration, HitResult, true, FLinearColor::Yellow, FLinearColor::Blue, 0.1f);
+
+		if (WallTrace == true)
+		{
+			if (HitResult.Distance < 42.f)
+			{
+				LedgeJumpUpType = 3; //there is a wall, can jump up to next ledge
+			}
+			else
+			{
+				LedgeJumpUpType = 2; //there is a gap, can go to shimmy (not implemented in this controller)
+			}
+		}
+		else
+		{
+			LedgeJumpUpType = 1; //there is no wall, can climb up
+		}
+	}	
+}
+
+void Aplatformer3d_cppCharacter::WallLeftTracer()
+{
+	const FVector PlayerPos = Player->GetActorLocation();
+	const FVector Start = PlayerPos;
+	const FVector LeftDistance = Player->GetActorRightVector() * -75.f;
+	const FVector End = Start + LeftDistance;
+
+	float TraceRadius = 20.f;
+	TArray<AActor*> ActorsToIgnore;
+	ActorsToIgnore.Add(Player);
+
+	FHitResult HitResult;
+
+	WallTrace = UKismetSystemLibrary::SphereTraceSingle(GetWorld(), Start, End, TraceRadius, UEngineTypes::ConvertToTraceType(ECC_GameTraceChannel2), false, ActorsToIgnore, EDrawDebugTrace::ForDuration, HitResult, true, FLinearColor::White, FLinearColor::Blue, 0.1f); //ECC_GameTraceChannel2 = LedgeTracer in DefaultEngine.ini
+
+	if (WallTrace == true)
+	{
+		LeftWallTraceDistance = HitResult.Distance;
+		WallTraceSideImpact = HitResult.ImpactPoint;
+		WallSideNormal = HitResult.ImpactNormal;
+		TraceHitLeftWall = true;
+		TraceHitRightWall = false;
+	}
+	else if (WallTrace == false)
+	{
+		if (IsWallRunning == true && WallRunSideType == 2)
+		{
+			Aplatformer3d_cppCharacter::StopWallRun();
+		}
+	}
+}
+
+void Aplatformer3d_cppCharacter::WallRightTracer()
+{
+	const FVector PlayerPos = Player->GetActorLocation();
+	const FVector Start = PlayerPos;
+	const FVector RightDistance = Player->GetActorRightVector() * 75.f;
+	const FVector End = Start + RightDistance;
+
+	float TraceRadius = 20.f;
+	TArray<AActor*> ActorsToIgnore;
+	ActorsToIgnore.Add(Player);
+
+	FHitResult HitResult;
+
+	WallTrace = UKismetSystemLibrary::SphereTraceSingle(GetWorld(), Start, End, TraceRadius, UEngineTypes::ConvertToTraceType(ECC_GameTraceChannel2), false, ActorsToIgnore, EDrawDebugTrace::ForDuration, HitResult, true, FLinearColor::White, FLinearColor::Blue, 0.1f); //ECC_GameTraceChannel2 = LedgeTracer in DefaultEngine.ini
+
+	if (WallTrace == true)
+	{
+		RightWallTraceDistance = HitResult.Distance;
+		WallTraceSideImpact = HitResult.ImpactPoint;
+		WallSideNormal = HitResult.ImpactNormal;		
+		TraceHitRightWall = true;
+		TraceHitLeftWall = false;
+	}
+	else if (WallTrace == false)
+	{
+		if (IsWallRunning == true && WallRunSideType == 3)
+		{
+			Aplatformer3d_cppCharacter::StopWallRun();
+		}
+	}
+}
 
 
 /*LEDGE HEIGHT TRACING FUNCTIONS*/
+
 
 void Aplatformer3d_cppCharacter::LedgeHeightTracer()
 {
@@ -262,6 +398,8 @@ void Aplatformer3d_cppCharacter::LedgeHeightTracer()
 		{
 			Aplatformer3d_cppCharacter::CheckLedgeTraceResult();
 			Aplatformer3d_cppCharacter::LedgeTraceFront();
+			Aplatformer3d_cppCharacter::LedgeTraceLeft();
+			Aplatformer3d_cppCharacter::LedgeTraceRight();
 		}
 		
 
@@ -271,7 +409,7 @@ void Aplatformer3d_cppCharacter::LedgeHeightTracer()
 
 void Aplatformer3d_cppCharacter::LedgeTraceFront()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 0.01f, FColor::Cyan, "Trace front");
+	//GEngine->AddOnScreenDebugMessage(-1, 0.01f, FColor::Cyan, "Trace front");
 
 	float ForwardDistance = 70.f;
 	float TraceEndHeight = -175.f;
@@ -316,6 +454,107 @@ void Aplatformer3d_cppCharacter::LedgeTraceFront()
 	}
 }
 
+void Aplatformer3d_cppCharacter::LedgeTraceLeft()
+{
+	//GEngine->AddOnScreenDebugMessage(-1, 0.01f, FColor::Cyan, "Trace left");
+
+	float ForwardDistance = 70.f;
+	float TraceEndHeight = -175.f;
+	float TraceStartHeight = 125.f;
+	float TraceLeftOffset = -50.f;
+	float TraceRadius = 10.f;
+	const FVector PlayerPos = Player->GetActorLocation();
+	const FVector TraceForwardDistance = Player->GetActorForwardVector() * ForwardDistance;
+	const FVector TraceLeftDistance = Player->GetActorRightVector() * TraceLeftOffset;
+	const FVector TraceStartOffset = FVector(0.f, 0.f, TraceStartHeight);
+	const FVector TraceDistance = FVector(0.f, 0.f, TraceEndHeight);
+	const FVector Start = PlayerPos + TraceForwardDistance + TraceStartOffset + TraceLeftDistance;
+	const FVector End = Start + TraceDistance;
+
+	TArray<AActor*> ActorsToIgnore;
+
+	ActorsToIgnore.Add(Player);
+
+	//TArray<FHitResult> HitArray;
+
+	FHitResult HitResult;
+
+	HitFront = UKismetSystemLibrary::SphereTraceSingle(GetWorld(), Start, End, TraceRadius, UEngineTypes::ConvertToTraceType(ECC_GameTraceChannel2), false, ActorsToIgnore, EDrawDebugTrace::ForDuration, HitResult, true, FLinearColor::Yellow, FLinearColor::Blue, 0.1f); //ECC_GameTraceChannel2 = LedgeTracer in DefaultEngine.ini
+
+	if (HitFront == true && HitResult.ImpactNormal.Z > 0.9f)
+	{
+		//just printing variables to check it's working
+		LedgeHeight = HitResult.ImpactPoint;
+		const float LedgeHeightX = LedgeHeight.X;
+		const float LedgeHeightY = LedgeHeight.Y;
+		const float LedgeHeightZ = LedgeHeight.Z;
+		LedgeDistanceCheck = HitResult.Distance;
+		HitWall = HitResult.GetActor();
+
+		const FVector ImpactPoint = HitResult.ImpactPoint;
+		const float ImpactX = ImpactPoint.X;
+		const float ImpactY = ImpactPoint.Y;
+		const float ImpactZ = ImpactPoint.Z;
+		const float Distance = HitResult.Distance;
+		GEngine->AddOnScreenDebugMessage(-1, 0.01f, FColor::Cyan, FString::Printf(TEXT("Hit wall: %s | LedgeDistanceCheck: %f | LedgeHeight: %f %f %f"), *HitWall->GetName(), LedgeDistanceCheck, LedgeHeightX, LedgeHeightY, LedgeHeightZ));
+		//GEngine->AddOnScreenDebugMessage(-1, 0.01f, FColor::Cyan, FString::Printf(TEXT("Hit wall: %s | LedgeDistanceCheck: %f | LedgeHeight: %f %f %f"), *HitResult.Actor->GetName(), LedgeDistanceCheck, LedgeHeightX, LedgeHeightY, LedgeHeightZ));
+
+
+	}
+}
+
+void Aplatformer3d_cppCharacter::LedgeTraceRight()
+{
+	//GEngine->AddOnScreenDebugMessage(-1, 0.01f, FColor::Cyan, "Trace right");
+
+	float ForwardDistance = 70.f;
+	float TraceEndHeight = -175.f;
+	float TraceStartHeight = 125.f;
+	float TraceRightOffset = 50.f;
+	float TraceRadius = 10.f;
+	const FVector PlayerPos = Player->GetActorLocation();
+	const FVector TraceForwardDistance = Player->GetActorForwardVector() * ForwardDistance;
+	const FVector TraceRightDistance = Player->GetActorRightVector() * TraceRightOffset;
+	const FVector TraceStartOffset = FVector(0.f, 0.f, TraceStartHeight);
+	const FVector TraceDistance = FVector(0.f, 0.f, TraceEndHeight);
+	const FVector Start = PlayerPos + TraceForwardDistance + TraceStartOffset + TraceRightDistance;
+	const FVector End = Start + TraceDistance;
+
+	TArray<AActor*> ActorsToIgnore;
+
+	ActorsToIgnore.Add(Player);
+
+	//TArray<FHitResult> HitArray;
+
+	FHitResult HitResult;
+
+	HitFront = UKismetSystemLibrary::SphereTraceSingle(GetWorld(), Start, End, TraceRadius, UEngineTypes::ConvertToTraceType(ECC_GameTraceChannel2), false, ActorsToIgnore, EDrawDebugTrace::ForDuration, HitResult, true, FLinearColor::Yellow, FLinearColor::Blue, 0.1f); //ECC_GameTraceChannel2 = LedgeTracer in DefaultEngine.ini
+
+	if (HitFront == true && HitResult.ImpactNormal.Z > 0.9f)
+	{
+		//just printing variables to check it's working
+		LedgeHeight = HitResult.ImpactPoint;
+		const float LedgeHeightX = LedgeHeight.X;
+		const float LedgeHeightY = LedgeHeight.Y;
+		const float LedgeHeightZ = LedgeHeight.Z;
+		LedgeDistanceCheck = HitResult.Distance;
+		HitWall = HitResult.GetActor();
+
+		const FVector ImpactPoint = HitResult.ImpactPoint;
+		const float ImpactX = ImpactPoint.X;
+		const float ImpactY = ImpactPoint.Y;
+		const float ImpactZ = ImpactPoint.Z;
+		const float Distance = HitResult.Distance;
+		GEngine->AddOnScreenDebugMessage(-1, 0.01f, FColor::Cyan, FString::Printf(TEXT("Hit wall: %s | LedgeDistanceCheck: %f | LedgeHeight: %f %f %f"), *HitWall->GetName(), LedgeDistanceCheck, LedgeHeightX, LedgeHeightY, LedgeHeightZ));
+		//GEngine->AddOnScreenDebugMessage(-1, 0.01f, FColor::Cyan, FString::Printf(TEXT("Hit wall: %s | LedgeDistanceCheck: %f | LedgeHeight: %f %f %f"), *HitResult.Actor->GetName(), LedgeDistanceCheck, LedgeHeightX, LedgeHeightY, LedgeHeightZ));
+
+
+	}
+}
+
+
+
+
 void Aplatformer3d_cppCharacter::LedgeCheckFloorBelowTrace()
 {
 }
@@ -342,71 +581,35 @@ void Aplatformer3d_cppCharacter::CheckLedgeTraceResult()
 }
 
 
-
-void Aplatformer3d_cppCharacter::WallTracer()
-{
-	float ForwardDistance = 75.f;
-	const FVector PlayerPos = Player->GetActorLocation();
-	const FVector TraceForwardDistance = Player->GetActorForwardVector() * ForwardDistance;
-	const FVector Start = PlayerPos;
-	const FVector End = PlayerPos + TraceForwardDistance;
-
-	float TraceRadius = 10.f;
-	TArray<AActor*> ActorsToIgnore;
-	ActorsToIgnore.Add(Player);
-
-	FHitResult HitResult;
-
-	WallTrace = UKismetSystemLibrary::SphereTraceSingle(GetWorld(), Start, End, TraceRadius, UEngineTypes::ConvertToTraceType(ECC_GameTraceChannel2), false, ActorsToIgnore, EDrawDebugTrace::ForDuration, HitResult, true, FLinearColor::Red, FLinearColor::Green, 0.1f); //ECC_GameTraceChannel2 = LedgeTracer in DefaultEngine.ini
-
-	if (WallTrace == true)
-	{
-		FrontWallTraceDistance = HitResult.Distance;
-		WallTraceImpact = HitResult.ImpactPoint;
-		WallNormal = HitResult.ImpactNormal;
-
-	}
-
-}
-
-
-void Aplatformer3d_cppCharacter::HangFromLedge()
+void Aplatformer3d_cppCharacter::HangFromLedge() //lateral movement is handled using Animation Montages
 {
 	if (LedgeFloorBelow == false)
 	{
-		if (CanMove == true)
-		{
-			//setup MoveComponentTo variables
-			FVector ModWallNormal = WallNormal * FVector(42.f, 42.f, 0.f);
-			float LedgeHeightVerticalOffset = 25.f; //lower values move character up when hanging
-			float TargetRelativeLocationX = ModWallNormal.X + WallTraceImpact.X;
-			float TargetRelativeLocationY = ModWallNormal.Y + WallTraceImpact.Y;
-			float TargetRelativeLocationZ = LedgeHeight.Z - LedgeHeightVerticalOffset;
-			FVector TargetRelativeLocation = FVector(TargetRelativeLocationX, TargetRelativeLocationY, TargetRelativeLocationZ);
+		//setup MoveComponentTo variables
+		FVector ModWallNormal = WallNormal * FVector(42.f, 42.f, 0.f);
+		float LedgeHeightVerticalOffset = 25.f; //lower values move character up when hanging
+		float TargetRelativeLocationX = ModWallNormal.X + WallTraceImpact.X;
+		float TargetRelativeLocationY = ModWallNormal.Y + WallTraceImpact.Y;
+		float TargetRelativeLocationZ = LedgeHeight.Z - LedgeHeightVerticalOffset;
+		LedgeTargetRelativeLocation = FVector(TargetRelativeLocationX, TargetRelativeLocationY, TargetRelativeLocationZ);
 
-			FVector InvertedNormal = WallNormal * FVector(-1.f, -1.f, 0.f);
-			FVector UpVector = GetCapsuleComponent()->GetUpVector();
-			FRotator TargetRelativeRotation = UKismetMathLibrary::MakeRotFromXZ(InvertedNormal, UpVector);
-			//FHitResult* OutSweepHitResult;
-			//ETeleportType Teleport;
-			GetCapsuleComponent()->SetRelativeRotation(TargetRelativeRotation, false/*, OutSweepHitResult, Teleport*/);
+		FVector InvertedNormal = WallNormal * FVector(-1.f, -1.f, 0.f);
+		FVector UpVector = GetCapsuleComponent()->GetUpVector();
+		LedgeTargetRelativeRotation = UKismetMathLibrary::MakeRotFromXZ(InvertedNormal, UpVector);
 
-			float OverTime = 0.1f;
-			TEnumAsByte< EMoveComponentAction::Type > MoveAction;
-			FLatentActionInfo LatentInfo;
-
-			UKismetSystemLibrary::MoveComponentTo(GetCapsuleComponent(), TargetRelativeLocation, TargetRelativeRotation, false, false, OverTime, true, MoveAction, LatentInfo);
-		}
+		BpHangFromLedge(); //calling MoveComponentTo function from Blueprints bc doenst work in code
+		
+			
 	}
 }
 
 
-void Aplatformer3d_cppCharacter::MoveToLedge() // todavia faltan los montones de checks, pero eso despues porque quiero probar funcionalidad
+void Aplatformer3d_cppCharacter::MoveToLedge() 
 {
 	if ( (GetCharacterMovement()->MovementMode == MOVE_Falling || (GetCharacterMovement()->MovementMode == MOVE_Flying && (IsJumpingRailLedge == true || IsCrouchingDownLedge == true)) )  &&   CanGrabLedge == true  &&  CanClimbUpObject == false )
-	{
-		GetCharacterMovement()->SetMovementMode(MOVE_Flying);		
-		
+	{		
+		GetCharacterMovement()->SetMovementMode(MOVE_Flying);
+						
 		GetWorld()->GetTimerManager().SetTimer(MoveToLedgeTimerHandle, this, &Aplatformer3d_cppCharacter::MoveComponentToLedge, 0.1f, false);
 	}
 	
@@ -420,25 +623,27 @@ void Aplatformer3d_cppCharacter::MoveComponentToLedge()
 	float TargetRelativeLocationX = ModWallNormal.X + WallTraceImpact.X;
 	float TargetRelativeLocationY = ModWallNormal.Y + WallTraceImpact.Y;
 	float TargetRelativeLocationZ = LedgeHeight.Z - LedgeHeightVerticalOffset;
-	FVector TargetRelativeLocation = FVector(TargetRelativeLocationX, TargetRelativeLocationY, TargetRelativeLocationZ);
+	LedgeTargetRelativeLocation = FVector(TargetRelativeLocationX, TargetRelativeLocationY, TargetRelativeLocationZ);
+	CurrentLocation = GetCapsuleComponent()->GetComponentLocation();
 
 	GEngine->AddOnScreenDebugMessage(-1, 50.f, FColor::Yellow, FString::Printf(TEXT("TargetRelLocation: %f %f %f"), TargetRelativeLocationX, TargetRelativeLocationY, TargetRelativeLocationZ));
 
 	FVector InvertedNormal = WallNormal * FVector(-1.f, -1.f, 0.f);
 	FVector UpVector = GetCapsuleComponent()->GetUpVector();
-	FRotator TargetRelativeRotation = UKismetMathLibrary::MakeRotFromXZ(InvertedNormal, UpVector);
+	LedgeTargetRelativeRotation = UKismetMathLibrary::MakeRotFromXZ(InvertedNormal, UpVector);
+	CurrentRotation = GetCapsuleComponent()->GetComponentRotation();
 
-	float OverTime = 0.1f;
-	//TEnumAsByte< EMoveComponentAction::Move > MoveAction;
-	FLatentActionInfo LatentInfo;
+	IsHanging = true;
 	CanGrabLedge = false;
 	IsCrouchingDownLedge = false;
-	IsJumpingRailLedge;
-	//IsHanging = true;
-	//ForceStopMovementCompletely();
-	GetCapsuleComponent()->SetWorldLocation(TargetRelativeLocation);
-	GetCapsuleComponent()->SetWorldRotation(TargetRelativeRotation);
-	//UKismetSystemLibrary::MoveComponentTo(GetCapsuleComponent(), TargetRelativeLocation, TargetRelativeRotation, false, false, OverTime, true, EMoveComponentAction::Move, LatentInfo); //not working. Other option is to call it from Unreal Blueprints
+	IsJumpingRailLedge = false;
+	IsBarHanging = false;
+	
+
+	BpMoveToLedge(); //calling MoveComponentTo function from Blueprints bc doenst work in code
+
+
+	GEngine->AddOnScreenDebugMessage(-1, 50.f, FColor::Yellow, FString::Printf(TEXT("Move to ledge")));
 }
 
 
@@ -462,5 +667,11 @@ void Aplatformer3d_cppCharacter::SetCanGrabLedge()
 	CanGrabLedge = true;
 }
 
+void Aplatformer3d_cppCharacter::StopWallRun()
+{
+}
+
+
+/*WALL RUNNING FUNCTIONS AND VARIABLES*/
 
 

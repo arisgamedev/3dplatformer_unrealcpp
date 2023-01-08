@@ -80,7 +80,79 @@ protected:
 	//add my own beginplay
 	virtual void BeginPlay() override;
 
+	//add my own tick
+	virtual void Tick(float Deltatime) override;
+
 	Aplatformer3d_cppCharacter* Player;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = CharVariables)
+	bool CanMove = true;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = CharVariables)
+	bool CanClimbUpLedge = false;
+	
+
+	/*LEDGE HEIGHT TRACING FUNCTIONS AND VARIABLES*/
+	//variables used to place character in correct position and orientation
+	//ledge traces checks
+	bool HitFront = false;
+	bool HitLeft = false;
+	bool HitRight = false;
+	bool WallTrace = false;
+
+	//ledge traces results
+	float LedgeDistanceCheck;
+	FVector LedgeHeight;
+	AActor* HitWall;	
+	FVector CurrentLocation;
+	FRotator CurrentRotation;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = CharVariables)
+	FVector LedgeTargetRelativeLocation;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = CharVariables)
+	FRotator LedgeTargetRelativeRotation;
+
+
+	//ledge platforming vars
+	bool IsHanging = false;
+	bool CanGrabLedge = true;
+	bool IsCrouchingDownLedge = false;
+	bool IsJumpingRailLedge = false;
+	bool CanClimbUpObject = false;
+	bool LedgeFloorBelow = false;
+	int LedgeJumpUpType = 0;
+
+
+	//WallTracer results
+	float FrontWallTraceDistance;
+	FVector WallTraceImpact;
+	FVector WallNormal;
+
+
+	//WallLeftTracer and WalRightTracer results
+	//common
+	FVector WallTraceSideImpact;
+	FVector WallSideNormal;
+	//left
+	bool TraceHitLeftWall;
+	float LeftWallTraceDistance;
+	//right
+	bool TraceHitRightWall;
+	float RightWallTraceDistance;
+
+
+	/*WALL RUNNING FUNCTIONS AND VARIABLES*/
+	bool CheckWallRunHitWallStop = false;
+	bool IsWallRunning = false;
+	int WallRunSideType = 0;
+	bool WallRunJumpOff = false;
+
+
+
+
+	/*SWINGING BAR FUNCTIONS AND VARIABLES*/
+
+
+	bool IsBarHanging = false;
 
 public:
 	/** Returns CameraBoom subobject **/
@@ -88,8 +160,7 @@ public:
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
-	//add my own tick
-	virtual void Tick(float Deltatime) override;
+	
 
 
 	/*SPHERE TRACER TO CHECK IF WE PERFORM THE OTHER TRACES AND STUFF*/
@@ -102,7 +173,15 @@ public:
 
 	bool CanTrace = false;
 
-	bool CanMove = true;
+	/*WALL TRACING FUNCTIONS AND VARIABLES*/
+	//trace from character to get wall normal
+	void WallTracer();
+	void TraceAboveHead();
+
+	//trace to the sides
+	void WallLeftTracer();
+	void WallRightTracer();
+
 
 	/*LEDGE HEIGHT TRACING FUNCTIONS AND VARIABLES*/
 	//ledge height tracing
@@ -110,6 +189,12 @@ public:
 
 	//tracing on front
 	void LedgeTraceFront();
+
+	//tracing on left
+	void LedgeTraceLeft();
+
+	//tracing on right
+	void LedgeTraceRight();
 
 	//check if there is floor below so you don't hang on short ledges
 	void LedgeCheckFloorBelowTrace();
@@ -127,9 +212,6 @@ public:
 	//hang from ledge to move around
 	void HangFromLedge();
 
-	//trace from character to get wall normal
-	void WallTracer();
-
 	//move along ledge
 	void LedgeMovementForward(float Value);
 	void LedgeMovementRight(float Value);
@@ -137,59 +219,27 @@ public:
 	//release ledge
 	void ReleaseLedge();
 	void SetCanGrabLedge();
+	
+	//Blueprint implementable functions
+	UFUNCTION(BlueprintImplementableEvent, Category = Platforming)
+	void BpMoveToLedge();
+	UFUNCTION(BlueprintImplementableEvent, Category = Platforming)
+	void BpHangFromLedge();
 
 
-	//variables used to place character in correct position and orientation
-	//ledge traces checks
-	bool HitFront = false;
-	bool HitLeft = false;
-	bool HitRight = false;
-	bool WallTrace = false;
-
-	//ledge traces results
-	float LedgeDistanceCheck;
-	FVector LedgeHeight;	
-	AActor* HitWall;
-
-	//ledge platforming vars
-	bool IsHanging = false;
-	bool CanGrabLedge = true;
-	bool IsCrouchingDownLedge = false;
-	bool IsJumpingRailLedge = false;
-	bool CanClimbUpObject = false;
-	bool LedgeFloorBelow = false;
-
-
-	//WallTracer results
-	float FrontWallTraceDistance;
-	FVector WallTraceImpact;
-	FVector WallNormal;
+	/*WALL RUNNING FUNCTIONS AND VARIABLES*/
+	//stop wall run
+	void StopWallRun();
 
 	//timers
 	FTimerHandle MoveToLedgeTimerHandle;
 	FTimerHandle ReleaseLedgeTimerHandle;
 
-	//Variables visible in unreal blueprints
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = CharVariables)
-	FVector MyTestVector;
+	
 
 
 
-	/*WALL RUNNING FUNCTIONS AND VARIABLES*/
-
-
-	bool CheckWallRunHitWallStop = false;
-	bool IsWallRunning = false;
-	int WallRunSideType = 0;
-	bool WallRunJumpOff = false;
-
-
-
-
-	/*SWINGING BAR FUNCTIONS AND VARIABLES*/
-
-
-	bool IsBarHanging = false;
+	
 
 
 };
