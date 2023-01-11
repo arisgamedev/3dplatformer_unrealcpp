@@ -21,7 +21,7 @@ void EmptyLinkFunctionForGeneratedCodeplatformer3d_cpp_init() {}
 				nullptr,
 				0,
 				PKG_CompiledIn | 0x00000000,
-				0x0E1DB6DB,
+				0x58DA1AB7,
 				0xEDED5AE5,
 				METADATA_PARAMS(nullptr, 0)
 			};

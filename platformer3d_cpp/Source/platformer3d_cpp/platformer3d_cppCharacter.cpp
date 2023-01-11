@@ -38,6 +38,7 @@ Aplatformer3d_cppCharacter::Aplatformer3d_cppCharacter()
 	GetCharacterMovement()->MaxFlySpeed = 200.0f;
 	GetCharacterMovement()->SetWalkableFloorAngle(30.f);
 	GetCharacterMovement()->CrouchedHalfHeight = 30.f;
+	GetCharacterMovement()->MaxWalkSpeed = RunSpeed;
 
 
 	// Create a camera boom (pulls in towards the player if there is a collision)
@@ -78,7 +79,7 @@ void Aplatformer3d_cppCharacter::SetupPlayerInputComponent(class UInputComponent
 {
 	// Set up gameplay key bindings
 	check(PlayerInputComponent);
-	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
+	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &Aplatformer3d_cppCharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
 	PlayerInputComponent->BindAction("Crouch", IE_Pressed, this, &Aplatformer3d_cppCharacter::Crouch);
@@ -126,6 +127,169 @@ void Aplatformer3d_cppCharacter::Tick(float DeltaTime)
 	}
 
 
+}
+
+
+/*OVERRIDE JUMP FUNCTION AND ADD OTHER ACTIONS TRIGGERED BY JUMP BUTTON BASED ON CHAR STATE*/
+void Aplatformer3d_cppCharacter::Jump()
+{
+	if (IsHanging == true)
+	{
+		if (CanJumpOffWall == true && CanClimbUpLedge == false)
+		{
+			Aplatformer3d_cppCharacter::LedgeJumpOffWall();
+		}
+		else
+		{
+			if (CanClimbUpLedge == true && CanJumpOffWall == false)
+			{
+				Aplatformer3d_cppCharacter::LedgeJumpUp();
+			}
+			else
+			{
+				if (CanSideJump == true)
+				{
+					Aplatformer3d_cppCharacter::LedgeJumpSide();
+				}
+			}
+		}
+	}
+	else
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Cyan, "my jump override function");
+		bPressedJump = true;
+		JumpKeyHoldTime = 0.0f;
+	}	
+}
+
+void Aplatformer3d_cppCharacter::LedgeJumpOffWall()
+{
+	//set platforming flags
+	IsLedgeJumpOffWall = true;
+	CanTrace = false;
+	IsHanging = false;
+	//make vector for launch character
+	FVector LaunchVelocity = ((WallNormal * (RunSpeed * 1.5f)) + FVector(0.f, 0.f, RunSpeed * 1.5f));
+
+	GetCharacterMovement()->GravityScale = 0.f;
+	GetCharacterMovement()->SetMovementMode(MOVE_Walking);
+	LaunchCharacter(LaunchVelocity, false, false);
+	GetCharacterMovement()->GravityScale = 1.f;
+	GetWorld()->GetTimerManager().SetTimer(LedgeJumpOffWallTimerHandle, this, &Aplatformer3d_cppCharacter::LedgeJumpOffWallResetFlags, 0.5f, false); //delay resetting the flags so character doesn't re-snap to ledge
+}
+
+void Aplatformer3d_cppCharacter::LedgeJumpOffWallResetFlags()
+{
+	CanGrabLedge = true;
+	CanTrace = true;
+	IsLedgeJumpOffWall = false;
+}
+
+void Aplatformer3d_cppCharacter::DoClimdUpLedge()
+{
+	if (IsHanging == true)
+	{
+		CanMove = false;
+		IsHanging = false;
+
+		//first trace
+		float ForwardDistanceA = 50.f;
+		float ForwardDistanceB = 150.f;
+		float TraceEndHeight = -175.f;
+		float TraceStartHeight = 125.f;
+		float TraceRadius = 10.f;
+		const FVector PlayerPos = Player->GetActorLocation();
+		const FVector TraceForwardDistanceA = Player->GetActorForwardVector() * ForwardDistanceA;
+		const FVector TraceForwardDistanceB = Player->GetActorForwardVector() * ForwardDistanceB;
+		const FVector TraceStartOffset = FVector(0.f, 0.f, TraceStartHeight);
+		const FVector TraceDistance = FVector(0.f, 0.f, TraceEndHeight);
+		const FVector StartA = PlayerPos + TraceForwardDistanceA + TraceStartOffset;
+		const FVector StartB = PlayerPos + TraceForwardDistanceB + TraceStartOffset;
+		const FVector EndA = StartA + TraceDistance;
+		const FVector EndB = StartB + TraceDistance;
+
+		TArray<AActor*> ActorsToIgnore;
+
+		ActorsToIgnore.Add(Player);
+
+		//TArray<FHitResult> HitArray;
+
+		FHitResult HitResultA;
+		FHitResult HitResultB;
+
+		bool HitA;
+		bool HitB;
+
+		HitA = UKismetSystemLibrary::SphereTraceSingle(GetWorld(), StartA, EndA, TraceRadius, UEngineTypes::ConvertToTraceType(ECC_GameTraceChannel2), false, ActorsToIgnore, EDrawDebugTrace::ForDuration, HitResultA, true, FLinearColor::Yellow, FLinearColor::Blue, 0.1f); //ECC_GameTraceChannel2 = LedgeTracer in DefaultEngine.ini
+		HitB = UKismetSystemLibrary::SphereTraceSingle(GetWorld(), StartB, EndB, TraceRadius, UEngineTypes::ConvertToTraceType(ECC_GameTraceChannel2), false, ActorsToIgnore, EDrawDebugTrace::ForDuration, HitResultB, true, FLinearColor::Yellow, FLinearColor::Blue, 0.1f); //ECC_GameTraceChannel2 = LedgeTracer in DefaultEngine.ini
+		
+		//climbing up is handled via animation montages, implementing root motion, in Blueprints
+		if (abs(HitResultA.Distance - HitResultB.Distance) < 1.f)
+		{
+			BpClimbUpLedge(); //used for normal climb up ledge
+		}
+		else
+		{
+			BpClimbOverRailing(); //used for railing climb up, say you are hanging on one side of the railing and climb to the other side, to the floor (also used for narrow ledges to jump to the other side, like vertical boards)
+		}
+	}
+}
+
+void Aplatformer3d_cppCharacter::DoClimbUpShimmy()
+{
+	//not implemented in this version
+}
+
+void Aplatformer3d_cppCharacter::DoJumpUpLedge()
+{
+	CanTrace = false;
+	WallJumpUp = true;
+	IsHanging = false;
+	GetCharacterMovement()->GravityScale = 0.f;
+	GetCharacterMovement()->SetMovementMode(MOVE_Walking);
+	GetWorld()->GetTimerManager().SetTimer(DelayActionTimerHandle, this, &Aplatformer3d_cppCharacter::JumpUpLedgeDelay1, 0.5f, false);
+}
+
+void Aplatformer3d_cppCharacter::JumpUpLedgeDelay1()
+{
+	float LaunchVelocityZ = GetCharacterMovement()->JumpZVelocity;
+	FVector LaunchVelocity = FVector(0.f, 0.f, LaunchVelocityZ);
+	LaunchCharacter(LaunchVelocity, false, false);
+	GetCharacterMovement()->GravityScale = 1.f;
+	GetWorld()->GetTimerManager().SetTimer(DelayActionTimerHandle, this, &Aplatformer3d_cppCharacter::JumpUpLedgeDelay2, 0.5f, false);
+}
+
+void Aplatformer3d_cppCharacter::JumpUpLedgeDelay2()
+{
+	CanGrabLedge = true;
+	WallJumpUp = false;
+	CanTrace = true;
+}
+
+void Aplatformer3d_cppCharacter::LedgeJumpUp()
+{
+	switch (LedgeJumpUpType)
+	{
+	case 1 :
+		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Cyan, "case 1");
+		Aplatformer3d_cppCharacter::DoClimdUpLedge();
+		break;
+	case 2 :
+		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Cyan, "case 2");
+		Aplatformer3d_cppCharacter::DoClimbUpShimmy();
+		break;
+	case 3:
+		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Cyan, "case 3");
+		Aplatformer3d_cppCharacter::DoJumpUpLedge();
+		break;
+	}
+}
+
+
+
+
+void Aplatformer3d_cppCharacter::LedgeJumpSide()
+{
 }
 
 
@@ -186,7 +350,7 @@ void Aplatformer3d_cppCharacter::MoveForward(float Value)
 }
 
 void Aplatformer3d_cppCharacter::MoveRight(float Value)
-{
+{	
 	if (IsHanging == false)
 	{
 		if ((Controller != nullptr) && (Value != 0.0f))
@@ -199,11 +363,11 @@ void Aplatformer3d_cppCharacter::MoveRight(float Value)
 			const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 			// add movement in that direction
 			AddMovementInput(Direction, Value);
-		}
-		else if (true)
-		{
-
-		}
+		}		
+	}
+	else if (IsHanging == true)
+	{
+		Aplatformer3d_cppCharacter::LedgeMovementRight(Value);
 	}
 	
 }
@@ -221,7 +385,7 @@ void Aplatformer3d_cppCharacter::Crouch()
 	}
 }
 
-void Aplatformer3d_cppCharacter::ForceStopMovementCompletely()
+void Aplatformer3d_cppCharacter::ForceStopMovementImmediately()
 {
 	GetCharacterMovement()->StopMovementImmediately();
 }
@@ -648,12 +812,54 @@ void Aplatformer3d_cppCharacter::MoveComponentToLedge()
 
 
 void Aplatformer3d_cppCharacter::LedgeMovementForward(float Value)
-{
+{	
+	if (abs(Value) > 0.5f) // make sure player "pushes the joystick enough" to avoid false inputs
+		if (Value > 0.f)
+		{
+			CanJumpOffWall = false;
+			CanClimbUpLedge = true;
+		}
+		else
+		{
+			CanJumpOffWall = true;
+			CanClimbUpLedge = false;
+		}
+	else
+	{
+		CanJumpOffWall = false;
+		CanClimbUpLedge = false;
+	}
 }
 
 void Aplatformer3d_cppCharacter::LedgeMovementRight(float Value)
 {
+	if (CornerShouldJump == true)
+	{
+
+	}
+	else
+	{
+		if (abs(Value) > 0.5f)
+		{
+			BpLedgeLateralMovement(Value); //calling lateral movement from Blueprints to make it easier -- can be implemented in code in a later version
+		}
+		else
+		{
+			ForceStopMovementImmediately();
+		}
+	}
+	Aplatformer3d_cppCharacter::LedgeMovementRightCacheValue(Value); //cache the axis value for corner tracing
 }
+
+void Aplatformer3d_cppCharacter::LedgeMovementRightCacheValue(float Value)
+{
+	if (abs(Value) > 0.1f)
+	{
+		TmpMoveRightValue = Value;
+	}
+}
+
+
 
 void Aplatformer3d_cppCharacter::ReleaseLedge()
 {

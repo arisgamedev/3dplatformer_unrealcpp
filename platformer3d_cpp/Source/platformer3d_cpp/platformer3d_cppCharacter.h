@@ -52,7 +52,7 @@ protected:
 
 	/** Called to stop movement completely */
 	UFUNCTION() //para que sea llamada desde FName
-	void ForceStopMovementCompletely();
+	void ForceStopMovementImmediately();
 
 	/** 
 	 * Called via input to turn at a given rate. 
@@ -85,11 +85,19 @@ protected:
 
 	Aplatformer3d_cppCharacter* Player;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = CharVariables)
-	bool CanMove = true;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = CharVariables)
-	bool CanClimbUpLedge = false;
+	/*LOCOMOTION VARIABLES*/
+	float RunSpeed = 600.f;
+
+
+	/*BLUEPRINT IMPLEMENTABLE VARIABLES*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = CharVariables)
+	bool CanMove = true;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = CharVariables)
+	bool CanClimbUpLedge = true;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = CharVariables)
+	bool CanGrabLedge = true;
+
 	
 
 	/*LEDGE HEIGHT TRACING FUNCTIONS AND VARIABLES*/
@@ -113,14 +121,18 @@ protected:
 
 
 	//ledge platforming vars
-	bool IsHanging = false;
-	bool CanGrabLedge = true;
+	bool IsHanging = false;	
 	bool IsCrouchingDownLedge = false;
 	bool IsJumpingRailLedge = false;
 	bool CanClimbUpObject = false;
 	bool LedgeFloorBelow = false;
 	int LedgeJumpUpType = 0;
-
+	bool CanJumpOffWall = false;
+	bool CornerShouldJump = false;
+	float TmpMoveRightValue;
+	bool CanSideJump = false;
+	bool IsLedgeJumpOffWall = false;
+	bool WallJumpUp = false;
 
 	//WallTracer results
 	float FrontWallTraceDistance;
@@ -161,6 +173,16 @@ public:
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
 	
+	/**
+	 * Make the character jump on the next update.
+	 * If you want your character to jump according to the time that the jump key is held,
+	 * then you can set JumpMaxHoldTime to some non-zero value. Make sure in this case to
+	 * call StopJumping() when you want the jump's z-velocity to stop being applied (such
+	 * as on a button up event), otherwise the character will carry on receiving the
+	 * velocity until JumpKeyHoldTime reaches JumpMaxHoldTime.
+	 */
+	//UFUNCTION(BlueprintCallable, Category = Character)
+	virtual void Jump() override;
 
 
 	/*SPHERE TRACER TO CHECK IF WE PERFORM THE OTHER TRACES AND STUFF*/
@@ -215,28 +237,49 @@ public:
 	//move along ledge
 	void LedgeMovementForward(float Value);
 	void LedgeMovementRight(float Value);
+	void LedgeMovementRightCacheValue(float Value);
+
+	//jump actions when on ledge
+	void LedgeJumpOffWall();
+	void LedgeJumpUp();
+	void LedgeJumpSide();
+	void LedgeJumpOffWallResetFlags();
+	void DoClimdUpLedge(); //climb up a ledge, LedgeJumpUpType = 1
+	void DoClimbUpShimmy(); //climb up to a narrow shimmy thing -not implemented here-, LedgeJumpUpType = 2
+	void DoJumpUpLedge(); //jump up from ledge to reach a ledge above, LedgeJumpUpType = 3
+	void JumpUpLedgeDelay1();
+	void JumpUpLedgeDelay2();
 
 	//release ledge
 	void ReleaseLedge();
 	void SetCanGrabLedge();
 	
-	//Blueprint implementable functions
-	UFUNCTION(BlueprintImplementableEvent, Category = Platforming)
-	void BpMoveToLedge();
-	UFUNCTION(BlueprintImplementableEvent, Category = Platforming)
-	void BpHangFromLedge();
-
 
 	/*WALL RUNNING FUNCTIONS AND VARIABLES*/
 	//stop wall run
 	void StopWallRun();
 
-	//timers
+	//TIMERS - it should be safe to use a single timer, but that will be done in a future version
 	FTimerHandle MoveToLedgeTimerHandle;
 	FTimerHandle ReleaseLedgeTimerHandle;
-
+	FTimerHandle LedgeJumpOffWallTimerHandle;
+	FTimerHandle DelayActionTimerHandle;
 	
 
+	/*BLUEPRINT IMPLEMENTABLE FUNCTIONS*/
+	//Move character to ledge after ledge detection
+	UFUNCTION(BlueprintImplementableEvent, Category = Platforming)
+		void BpMoveToLedge();
+	//Align character to ledge during ledge transversal
+	UFUNCTION(BlueprintImplementableEvent, Category = Platforming)
+		void BpHangFromLedge();
+	//Perform ledge lateral movement Anim Montages (does root motion)
+	UFUNCTION(BlueprintImplementableEvent, Category = Platforming)
+		void BpLedgeLateralMovement(float bpvalue);
+	UFUNCTION(BlueprintImplementableEvent, Category = Platforming)
+		void BpClimbUpLedge();
+	UFUNCTION(BlueprintImplementableEvent, Category = Platforming)
+		void BpClimbOverRailing();
 
 
 	

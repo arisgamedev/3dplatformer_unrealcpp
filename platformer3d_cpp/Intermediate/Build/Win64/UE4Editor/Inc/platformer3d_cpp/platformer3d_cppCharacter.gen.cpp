@@ -50,17 +50,34 @@ void EmptyLinkFunctionForGeneratedCodeplatformer3d_cppCharacter() {}
 		P_THIS->OnSphereTracerOverlapBegin(Z_Param_OverlappedComp,Z_Param_OtherActor,Z_Param_OtherComp,Z_Param_OtherBodyIndex,Z_Param_bFromSweep,Z_Param_Out_SweepResult);
 		P_NATIVE_END;
 	}
-	DEFINE_FUNCTION(Aplatformer3d_cppCharacter::execForceStopMovementCompletely)
+	DEFINE_FUNCTION(Aplatformer3d_cppCharacter::execForceStopMovementImmediately)
 	{
 		P_FINISH;
 		P_NATIVE_BEGIN;
-		P_THIS->ForceStopMovementCompletely();
+		P_THIS->ForceStopMovementImmediately();
 		P_NATIVE_END;
+	}
+	static FName NAME_Aplatformer3d_cppCharacter_BpClimbOverRailing = FName(TEXT("BpClimbOverRailing"));
+	void Aplatformer3d_cppCharacter::BpClimbOverRailing()
+	{
+		ProcessEvent(FindFunctionChecked(NAME_Aplatformer3d_cppCharacter_BpClimbOverRailing),NULL);
+	}
+	static FName NAME_Aplatformer3d_cppCharacter_BpClimbUpLedge = FName(TEXT("BpClimbUpLedge"));
+	void Aplatformer3d_cppCharacter::BpClimbUpLedge()
+	{
+		ProcessEvent(FindFunctionChecked(NAME_Aplatformer3d_cppCharacter_BpClimbUpLedge),NULL);
 	}
 	static FName NAME_Aplatformer3d_cppCharacter_BpHangFromLedge = FName(TEXT("BpHangFromLedge"));
 	void Aplatformer3d_cppCharacter::BpHangFromLedge()
 	{
 		ProcessEvent(FindFunctionChecked(NAME_Aplatformer3d_cppCharacter_BpHangFromLedge),NULL);
+	}
+	static FName NAME_Aplatformer3d_cppCharacter_BpLedgeLateralMovement = FName(TEXT("BpLedgeLateralMovement"));
+	void Aplatformer3d_cppCharacter::BpLedgeLateralMovement(float bpvalue)
+	{
+		platformer3d_cppCharacter_eventBpLedgeLateralMovement_Parms Parms;
+		Parms.bpvalue=bpvalue;
+		ProcessEvent(FindFunctionChecked(NAME_Aplatformer3d_cppCharacter_BpLedgeLateralMovement),&Parms);
 	}
 	static FName NAME_Aplatformer3d_cppCharacter_BpMoveToLedge = FName(TEXT("BpMoveToLedge"));
 	void Aplatformer3d_cppCharacter::BpMoveToLedge()
@@ -71,11 +88,57 @@ void EmptyLinkFunctionForGeneratedCodeplatformer3d_cppCharacter() {}
 	{
 		UClass* Class = Aplatformer3d_cppCharacter::StaticClass();
 		static const FNameNativePtrPair Funcs[] = {
-			{ "ForceStopMovementCompletely", &Aplatformer3d_cppCharacter::execForceStopMovementCompletely },
+			{ "ForceStopMovementImmediately", &Aplatformer3d_cppCharacter::execForceStopMovementImmediately },
 			{ "OnSphereTracerOverlapBegin", &Aplatformer3d_cppCharacter::execOnSphereTracerOverlapBegin },
 			{ "OnSphereTracerOverlapEnd", &Aplatformer3d_cppCharacter::execOnSphereTracerOverlapEnd },
 		};
 		FNativeFunctionRegistrar::RegisterFunctions(Class, Funcs, UE_ARRAY_COUNT(Funcs));
+	}
+	struct Z_Construct_UFunction_Aplatformer3d_cppCharacter_BpClimbOverRailing_Statics
+	{
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_Aplatformer3d_cppCharacter_BpClimbOverRailing_Statics::Function_MetaDataParams[] = {
+		{ "Category", "Platforming" },
+		{ "ModuleRelativePath", "platformer3d_cppCharacter.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_Aplatformer3d_cppCharacter_BpClimbOverRailing_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_Aplatformer3d_cppCharacter, nullptr, "BpClimbOverRailing", nullptr, nullptr, 0, nullptr, 0, RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x08020800, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_Aplatformer3d_cppCharacter_BpClimbOverRailing_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_Aplatformer3d_cppCharacter_BpClimbOverRailing_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_Aplatformer3d_cppCharacter_BpClimbOverRailing()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_Aplatformer3d_cppCharacter_BpClimbOverRailing_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
+	struct Z_Construct_UFunction_Aplatformer3d_cppCharacter_BpClimbUpLedge_Statics
+	{
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_Aplatformer3d_cppCharacter_BpClimbUpLedge_Statics::Function_MetaDataParams[] = {
+		{ "Category", "Platforming" },
+		{ "ModuleRelativePath", "platformer3d_cppCharacter.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_Aplatformer3d_cppCharacter_BpClimbUpLedge_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_Aplatformer3d_cppCharacter, nullptr, "BpClimbUpLedge", nullptr, nullptr, 0, nullptr, 0, RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x08020800, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_Aplatformer3d_cppCharacter_BpClimbUpLedge_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_Aplatformer3d_cppCharacter_BpClimbUpLedge_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_Aplatformer3d_cppCharacter_BpClimbUpLedge()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_Aplatformer3d_cppCharacter_BpClimbUpLedge_Statics::FuncParams);
+		}
+		return ReturnFunction;
 	}
 	struct Z_Construct_UFunction_Aplatformer3d_cppCharacter_BpHangFromLedge_Statics
 	{
@@ -87,7 +150,9 @@ void EmptyLinkFunctionForGeneratedCodeplatformer3d_cppCharacter() {}
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_Aplatformer3d_cppCharacter_BpHangFromLedge_Statics::Function_MetaDataParams[] = {
 		{ "Category", "Platforming" },
+		{ "Comment", "//Align character to ledge during ledge transversal\n" },
 		{ "ModuleRelativePath", "platformer3d_cppCharacter.h" },
+		{ "ToolTip", "Align character to ledge during ledge transversal" },
 	};
 #endif
 	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_Aplatformer3d_cppCharacter_BpHangFromLedge_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_Aplatformer3d_cppCharacter, nullptr, "BpHangFromLedge", nullptr, nullptr, 0, nullptr, 0, RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x08020800, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_Aplatformer3d_cppCharacter_BpHangFromLedge_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_Aplatformer3d_cppCharacter_BpHangFromLedge_Statics::Function_MetaDataParams)) };
@@ -97,6 +162,37 @@ void EmptyLinkFunctionForGeneratedCodeplatformer3d_cppCharacter() {}
 		if (!ReturnFunction)
 		{
 			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_Aplatformer3d_cppCharacter_BpHangFromLedge_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
+	struct Z_Construct_UFunction_Aplatformer3d_cppCharacter_BpLedgeLateralMovement_Statics
+	{
+		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_bpvalue;
+		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UFunction_Aplatformer3d_cppCharacter_BpLedgeLateralMovement_Statics::NewProp_bpvalue = { "bpvalue", nullptr, (EPropertyFlags)0x0010000000000080, UE4CodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(platformer3d_cppCharacter_eventBpLedgeLateralMovement_Parms, bpvalue), METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_Aplatformer3d_cppCharacter_BpLedgeLateralMovement_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_Aplatformer3d_cppCharacter_BpLedgeLateralMovement_Statics::NewProp_bpvalue,
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_Aplatformer3d_cppCharacter_BpLedgeLateralMovement_Statics::Function_MetaDataParams[] = {
+		{ "Category", "Platforming" },
+		{ "Comment", "//Perform ledge lateral movement Anim Montages (does root motion)\n" },
+		{ "ModuleRelativePath", "platformer3d_cppCharacter.h" },
+		{ "ToolTip", "Perform ledge lateral movement Anim Montages (does root motion)" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_Aplatformer3d_cppCharacter_BpLedgeLateralMovement_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_Aplatformer3d_cppCharacter, nullptr, "BpLedgeLateralMovement", nullptr, nullptr, sizeof(platformer3d_cppCharacter_eventBpLedgeLateralMovement_Parms), Z_Construct_UFunction_Aplatformer3d_cppCharacter_BpLedgeLateralMovement_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_Aplatformer3d_cppCharacter_BpLedgeLateralMovement_Statics::PropPointers), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x08020800, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_Aplatformer3d_cppCharacter_BpLedgeLateralMovement_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_Aplatformer3d_cppCharacter_BpLedgeLateralMovement_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_Aplatformer3d_cppCharacter_BpLedgeLateralMovement()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_Aplatformer3d_cppCharacter_BpLedgeLateralMovement_Statics::FuncParams);
 		}
 		return ReturnFunction;
 	}
@@ -110,9 +206,9 @@ void EmptyLinkFunctionForGeneratedCodeplatformer3d_cppCharacter() {}
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_Aplatformer3d_cppCharacter_BpMoveToLedge_Statics::Function_MetaDataParams[] = {
 		{ "Category", "Platforming" },
-		{ "Comment", "//Blueprint implementable functions\n" },
+		{ "Comment", "/*BLUEPRINT IMPLEMENTABLE FUNCTIONS*///Move character to ledge after ledge detection\n" },
 		{ "ModuleRelativePath", "platformer3d_cppCharacter.h" },
-		{ "ToolTip", "Blueprint implementable functions" },
+		{ "ToolTip", "BLUEPRINT IMPLEMENTABLE FUNCTIONS//Move character to ledge after ledge detection" },
 	};
 #endif
 	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_Aplatformer3d_cppCharacter_BpMoveToLedge_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_Aplatformer3d_cppCharacter, nullptr, "BpMoveToLedge", nullptr, nullptr, 0, nullptr, 0, RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x08020800, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_Aplatformer3d_cppCharacter_BpMoveToLedge_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_Aplatformer3d_cppCharacter_BpMoveToLedge_Statics::Function_MetaDataParams)) };
@@ -125,7 +221,7 @@ void EmptyLinkFunctionForGeneratedCodeplatformer3d_cppCharacter() {}
 		}
 		return ReturnFunction;
 	}
-	struct Z_Construct_UFunction_Aplatformer3d_cppCharacter_ForceStopMovementCompletely_Statics
+	struct Z_Construct_UFunction_Aplatformer3d_cppCharacter_ForceStopMovementImmediately_Statics
 	{
 #if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
@@ -133,19 +229,19 @@ void EmptyLinkFunctionForGeneratedCodeplatformer3d_cppCharacter() {}
 		static const UE4CodeGen_Private::FFunctionParams FuncParams;
 	};
 #if WITH_METADATA
-	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_Aplatformer3d_cppCharacter_ForceStopMovementCompletely_Statics::Function_MetaDataParams[] = {
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_Aplatformer3d_cppCharacter_ForceStopMovementImmediately_Statics::Function_MetaDataParams[] = {
 		{ "Comment", "/** Called to stop movement completely *///para que sea llamada desde FName\n" },
 		{ "ModuleRelativePath", "platformer3d_cppCharacter.h" },
 		{ "ToolTip", "Called to stop movement completely //para que sea llamada desde FName" },
 	};
 #endif
-	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_Aplatformer3d_cppCharacter_ForceStopMovementCompletely_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_Aplatformer3d_cppCharacter, nullptr, "ForceStopMovementCompletely", nullptr, nullptr, 0, nullptr, 0, RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00080401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_Aplatformer3d_cppCharacter_ForceStopMovementCompletely_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_Aplatformer3d_cppCharacter_ForceStopMovementCompletely_Statics::Function_MetaDataParams)) };
-	UFunction* Z_Construct_UFunction_Aplatformer3d_cppCharacter_ForceStopMovementCompletely()
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_Aplatformer3d_cppCharacter_ForceStopMovementImmediately_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_Aplatformer3d_cppCharacter, nullptr, "ForceStopMovementImmediately", nullptr, nullptr, 0, nullptr, 0, RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00080401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_Aplatformer3d_cppCharacter_ForceStopMovementImmediately_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_Aplatformer3d_cppCharacter_ForceStopMovementImmediately_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_Aplatformer3d_cppCharacter_ForceStopMovementImmediately()
 	{
 		static UFunction* ReturnFunction = nullptr;
 		if (!ReturnFunction)
 		{
-			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_Aplatformer3d_cppCharacter_ForceStopMovementCompletely_Statics::FuncParams);
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_Aplatformer3d_cppCharacter_ForceStopMovementImmediately_Statics::FuncParams);
 		}
 		return ReturnFunction;
 	}
@@ -334,6 +430,11 @@ void EmptyLinkFunctionForGeneratedCodeplatformer3d_cppCharacter() {}
 		static void NewProp_CanClimbUpLedge_SetBit(void* Obj);
 		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_CanClimbUpLedge;
 #if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_CanGrabLedge_MetaData[];
+#endif
+		static void NewProp_CanGrabLedge_SetBit(void* Obj);
+		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_CanGrabLedge;
+#if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_LedgeTargetRelativeLocation_MetaData[];
 #endif
 		static const UE4CodeGen_Private::FStructPropertyParams NewProp_LedgeTargetRelativeLocation;
@@ -350,9 +451,12 @@ void EmptyLinkFunctionForGeneratedCodeplatformer3d_cppCharacter() {}
 		(UObject* (*)())Z_Construct_UPackage__Script_platformer3d_cpp,
 	};
 	const FClassFunctionLinkInfo Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::FuncInfo[] = {
-		{ &Z_Construct_UFunction_Aplatformer3d_cppCharacter_BpHangFromLedge, "BpHangFromLedge" }, // 969567000
-		{ &Z_Construct_UFunction_Aplatformer3d_cppCharacter_BpMoveToLedge, "BpMoveToLedge" }, // 89801373
-		{ &Z_Construct_UFunction_Aplatformer3d_cppCharacter_ForceStopMovementCompletely, "ForceStopMovementCompletely" }, // 921648656
+		{ &Z_Construct_UFunction_Aplatformer3d_cppCharacter_BpClimbOverRailing, "BpClimbOverRailing" }, // 3940895656
+		{ &Z_Construct_UFunction_Aplatformer3d_cppCharacter_BpClimbUpLedge, "BpClimbUpLedge" }, // 4069514943
+		{ &Z_Construct_UFunction_Aplatformer3d_cppCharacter_BpHangFromLedge, "BpHangFromLedge" }, // 3532231663
+		{ &Z_Construct_UFunction_Aplatformer3d_cppCharacter_BpLedgeLateralMovement, "BpLedgeLateralMovement" }, // 279443968
+		{ &Z_Construct_UFunction_Aplatformer3d_cppCharacter_BpMoveToLedge, "BpMoveToLedge" }, // 4175395582
+		{ &Z_Construct_UFunction_Aplatformer3d_cppCharacter_ForceStopMovementImmediately, "ForceStopMovementImmediately" }, // 3001227378
 		{ &Z_Construct_UFunction_Aplatformer3d_cppCharacter_OnSphereTracerOverlapBegin, "OnSphereTracerOverlapBegin" }, // 1328378053
 		{ &Z_Construct_UFunction_Aplatformer3d_cppCharacter_OnSphereTracerOverlapEnd, "OnSphereTracerOverlapEnd" }, // 2915238670
 	};
@@ -416,14 +520,16 @@ void EmptyLinkFunctionForGeneratedCodeplatformer3d_cppCharacter() {}
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_CanMove_MetaData[] = {
 		{ "Category", "CharVariables" },
+		{ "Comment", "/*BLUEPRINT IMPLEMENTABLE VARIABLES*/" },
 		{ "ModuleRelativePath", "platformer3d_cppCharacter.h" },
+		{ "ToolTip", "BLUEPRINT IMPLEMENTABLE VARIABLES" },
 	};
 #endif
 	void Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_CanMove_SetBit(void* Obj)
 	{
 		((Aplatformer3d_cppCharacter*)Obj)->CanMove = 1;
 	}
-	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_CanMove = { "CanMove", nullptr, (EPropertyFlags)0x0020080000020015, UE4CodeGen_Private::EPropertyGenFlags::Bool | UE4CodeGen_Private::EPropertyGenFlags::NativeBool, RF_Public|RF_Transient|RF_MarkAsNative, 1, sizeof(bool), sizeof(Aplatformer3d_cppCharacter), &Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_CanMove_SetBit, METADATA_PARAMS(Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_CanMove_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_CanMove_MetaData)) };
+	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_CanMove = { "CanMove", nullptr, (EPropertyFlags)0x0020080000000005, UE4CodeGen_Private::EPropertyGenFlags::Bool | UE4CodeGen_Private::EPropertyGenFlags::NativeBool, RF_Public|RF_Transient|RF_MarkAsNative, 1, sizeof(bool), sizeof(Aplatformer3d_cppCharacter), &Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_CanMove_SetBit, METADATA_PARAMS(Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_CanMove_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_CanMove_MetaData)) };
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_CanClimbUpLedge_MetaData[] = {
 		{ "Category", "CharVariables" },
@@ -434,7 +540,18 @@ void EmptyLinkFunctionForGeneratedCodeplatformer3d_cppCharacter() {}
 	{
 		((Aplatformer3d_cppCharacter*)Obj)->CanClimbUpLedge = 1;
 	}
-	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_CanClimbUpLedge = { "CanClimbUpLedge", nullptr, (EPropertyFlags)0x0020080000020015, UE4CodeGen_Private::EPropertyGenFlags::Bool | UE4CodeGen_Private::EPropertyGenFlags::NativeBool, RF_Public|RF_Transient|RF_MarkAsNative, 1, sizeof(bool), sizeof(Aplatformer3d_cppCharacter), &Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_CanClimbUpLedge_SetBit, METADATA_PARAMS(Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_CanClimbUpLedge_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_CanClimbUpLedge_MetaData)) };
+	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_CanClimbUpLedge = { "CanClimbUpLedge", nullptr, (EPropertyFlags)0x0020080000000005, UE4CodeGen_Private::EPropertyGenFlags::Bool | UE4CodeGen_Private::EPropertyGenFlags::NativeBool, RF_Public|RF_Transient|RF_MarkAsNative, 1, sizeof(bool), sizeof(Aplatformer3d_cppCharacter), &Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_CanClimbUpLedge_SetBit, METADATA_PARAMS(Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_CanClimbUpLedge_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_CanClimbUpLedge_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_CanGrabLedge_MetaData[] = {
+		{ "Category", "CharVariables" },
+		{ "ModuleRelativePath", "platformer3d_cppCharacter.h" },
+	};
+#endif
+	void Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_CanGrabLedge_SetBit(void* Obj)
+	{
+		((Aplatformer3d_cppCharacter*)Obj)->CanGrabLedge = 1;
+	}
+	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_CanGrabLedge = { "CanGrabLedge", nullptr, (EPropertyFlags)0x0020080000000005, UE4CodeGen_Private::EPropertyGenFlags::Bool | UE4CodeGen_Private::EPropertyGenFlags::NativeBool, RF_Public|RF_Transient|RF_MarkAsNative, 1, sizeof(bool), sizeof(Aplatformer3d_cppCharacter), &Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_CanGrabLedge_SetBit, METADATA_PARAMS(Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_CanGrabLedge_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_CanGrabLedge_MetaData)) };
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_LedgeTargetRelativeLocation_MetaData[] = {
 		{ "Category", "CharVariables" },
@@ -457,6 +574,7 @@ void EmptyLinkFunctionForGeneratedCodeplatformer3d_cppCharacter() {}
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_SphereTracer,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_CanMove,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_CanClimbUpLedge,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_CanGrabLedge,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_LedgeTargetRelativeLocation,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_LedgeTargetRelativeRotation,
 	};
@@ -487,7 +605,7 @@ void EmptyLinkFunctionForGeneratedCodeplatformer3d_cppCharacter() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(Aplatformer3d_cppCharacter, 1347801823);
+	IMPLEMENT_CLASS(Aplatformer3d_cppCharacter, 388069830);
 	template<> PLATFORMER3D_CPP_API UClass* StaticClass<Aplatformer3d_cppCharacter>()
 	{
 		return Aplatformer3d_cppCharacter::StaticClass();

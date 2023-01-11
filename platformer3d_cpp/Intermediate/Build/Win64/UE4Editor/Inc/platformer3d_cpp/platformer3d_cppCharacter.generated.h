@@ -21,17 +21,23 @@ struct FHitResult;
  \
 	DECLARE_FUNCTION(execOnSphereTracerOverlapEnd); \
 	DECLARE_FUNCTION(execOnSphereTracerOverlapBegin); \
-	DECLARE_FUNCTION(execForceStopMovementCompletely);
+	DECLARE_FUNCTION(execForceStopMovementImmediately);
 
 
 #define platformer3d_cpp_Source_platformer3d_cpp_platformer3d_cppCharacter_h_12_RPC_WRAPPERS_NO_PURE_DECLS \
  \
 	DECLARE_FUNCTION(execOnSphereTracerOverlapEnd); \
 	DECLARE_FUNCTION(execOnSphereTracerOverlapBegin); \
-	DECLARE_FUNCTION(execForceStopMovementCompletely);
+	DECLARE_FUNCTION(execForceStopMovementImmediately);
 
 
-#define platformer3d_cpp_Source_platformer3d_cpp_platformer3d_cppCharacter_h_12_EVENT_PARMS
+#define platformer3d_cpp_Source_platformer3d_cpp_platformer3d_cppCharacter_h_12_EVENT_PARMS \
+	struct platformer3d_cppCharacter_eventBpLedgeLateralMovement_Parms \
+	{ \
+		float bpvalue; \
+	};
+
+
 #define platformer3d_cpp_Source_platformer3d_cpp_platformer3d_cppCharacter_h_12_CALLBACK_WRAPPERS
 #define platformer3d_cpp_Source_platformer3d_cpp_platformer3d_cppCharacter_h_12_INCLASS_NO_PURE_DECLS \
 private: \
@@ -80,6 +86,7 @@ public: \
 	FORCEINLINE static uint32 __PPO__FollowCamera() { return STRUCT_OFFSET(Aplatformer3d_cppCharacter, FollowCamera); } \
 	FORCEINLINE static uint32 __PPO__CanMove() { return STRUCT_OFFSET(Aplatformer3d_cppCharacter, CanMove); } \
 	FORCEINLINE static uint32 __PPO__CanClimbUpLedge() { return STRUCT_OFFSET(Aplatformer3d_cppCharacter, CanClimbUpLedge); } \
+	FORCEINLINE static uint32 __PPO__CanGrabLedge() { return STRUCT_OFFSET(Aplatformer3d_cppCharacter, CanGrabLedge); } \
 	FORCEINLINE static uint32 __PPO__LedgeTargetRelativeLocation() { return STRUCT_OFFSET(Aplatformer3d_cppCharacter, LedgeTargetRelativeLocation); } \
 	FORCEINLINE static uint32 __PPO__LedgeTargetRelativeRotation() { return STRUCT_OFFSET(Aplatformer3d_cppCharacter, LedgeTargetRelativeRotation); }
 
