@@ -87,6 +87,7 @@ public: \
 	FORCEINLINE static uint32 __PPO__CanMove() { return STRUCT_OFFSET(Aplatformer3d_cppCharacter, CanMove); } \
 	FORCEINLINE static uint32 __PPO__CanClimbUpLedge() { return STRUCT_OFFSET(Aplatformer3d_cppCharacter, CanClimbUpLedge); } \
 	FORCEINLINE static uint32 __PPO__CanGrabLedge() { return STRUCT_OFFSET(Aplatformer3d_cppCharacter, CanGrabLedge); } \
+	FORCEINLINE static uint32 __PPO__IsHanging() { return STRUCT_OFFSET(Aplatformer3d_cppCharacter, IsHanging); } \
 	FORCEINLINE static uint32 __PPO__LedgeTargetRelativeLocation() { return STRUCT_OFFSET(Aplatformer3d_cppCharacter, LedgeTargetRelativeLocation); } \
 	FORCEINLINE static uint32 __PPO__LedgeTargetRelativeRotation() { return STRUCT_OFFSET(Aplatformer3d_cppCharacter, LedgeTargetRelativeRotation); }
 

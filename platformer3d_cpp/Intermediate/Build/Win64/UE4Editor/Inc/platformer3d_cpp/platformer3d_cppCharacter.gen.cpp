@@ -435,6 +435,11 @@ void EmptyLinkFunctionForGeneratedCodeplatformer3d_cppCharacter() {}
 		static void NewProp_CanGrabLedge_SetBit(void* Obj);
 		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_CanGrabLedge;
 #if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_IsHanging_MetaData[];
+#endif
+		static void NewProp_IsHanging_SetBit(void* Obj);
+		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_IsHanging;
+#if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_LedgeTargetRelativeLocation_MetaData[];
 #endif
 		static const UE4CodeGen_Private::FStructPropertyParams NewProp_LedgeTargetRelativeLocation;
@@ -553,6 +558,17 @@ void EmptyLinkFunctionForGeneratedCodeplatformer3d_cppCharacter() {}
 	}
 	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_CanGrabLedge = { "CanGrabLedge", nullptr, (EPropertyFlags)0x0020080000000005, UE4CodeGen_Private::EPropertyGenFlags::Bool | UE4CodeGen_Private::EPropertyGenFlags::NativeBool, RF_Public|RF_Transient|RF_MarkAsNative, 1, sizeof(bool), sizeof(Aplatformer3d_cppCharacter), &Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_CanGrabLedge_SetBit, METADATA_PARAMS(Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_CanGrabLedge_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_CanGrabLedge_MetaData)) };
 #if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_IsHanging_MetaData[] = {
+		{ "Category", "CharVariables" },
+		{ "ModuleRelativePath", "platformer3d_cppCharacter.h" },
+	};
+#endif
+	void Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_IsHanging_SetBit(void* Obj)
+	{
+		((Aplatformer3d_cppCharacter*)Obj)->IsHanging = 1;
+	}
+	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_IsHanging = { "IsHanging", nullptr, (EPropertyFlags)0x0020080000000005, UE4CodeGen_Private::EPropertyGenFlags::Bool | UE4CodeGen_Private::EPropertyGenFlags::NativeBool, RF_Public|RF_Transient|RF_MarkAsNative, 1, sizeof(bool), sizeof(Aplatformer3d_cppCharacter), &Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_IsHanging_SetBit, METADATA_PARAMS(Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_IsHanging_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_IsHanging_MetaData)) };
+#if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_LedgeTargetRelativeLocation_MetaData[] = {
 		{ "Category", "CharVariables" },
 		{ "ModuleRelativePath", "platformer3d_cppCharacter.h" },
@@ -575,6 +591,7 @@ void EmptyLinkFunctionForGeneratedCodeplatformer3d_cppCharacter() {}
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_CanMove,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_CanClimbUpLedge,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_CanGrabLedge,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_IsHanging,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_LedgeTargetRelativeLocation,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_Aplatformer3d_cppCharacter_Statics::NewProp_LedgeTargetRelativeRotation,
 	};
@@ -605,7 +622,7 @@ void EmptyLinkFunctionForGeneratedCodeplatformer3d_cppCharacter() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(Aplatformer3d_cppCharacter, 388069830);
+	IMPLEMENT_CLASS(Aplatformer3d_cppCharacter, 2324131641);
 	template<> PLATFORMER3D_CPP_API UClass* StaticClass<Aplatformer3d_cppCharacter>()
 	{
 		return Aplatformer3d_cppCharacter::StaticClass();

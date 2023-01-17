@@ -97,6 +97,8 @@ protected:
 	bool CanClimbUpLedge = true;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = CharVariables)
 	bool CanGrabLedge = true;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = CharVariables)
+	bool IsHanging = false;
 
 	
 
@@ -120,8 +122,7 @@ protected:
 	FRotator LedgeTargetRelativeRotation;
 
 
-	//ledge platforming vars
-	bool IsHanging = false;	
+	//ledge platforming vars	
 	bool IsCrouchingDownLedge = false;
 	bool IsJumpingRailLedge = false;
 	bool CanClimbUpObject = false;

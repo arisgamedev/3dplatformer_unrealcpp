@@ -1,7 +1,20 @@
 ﻿  Using 'git status' to determine working set for adaptive non-unity build (C:\Projects\Gamedev\_research\3dplatformer_unrealcpp).
-  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-3553.lib
-  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-6501.lib
-  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-9158.lib
+  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-0109.lib
+  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-0450.lib
+  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-0928.lib
+  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-1669.lib
+  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-1888.lib
+  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-1916.lib
+  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-2095.lib
+  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-3205.lib
+  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-4138.lib
+  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-4737.lib
+  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-4739.lib
+  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-5340.lib
+  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-5880.lib
+  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-8708.lib
+  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-9193.lib
+  Deleted hot-reload file: C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp-9844.lib
   Building platformer3d_cppEditor...
   Using Visual Studio 2019 14.29.30146 toolchain (C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133) and Windows 10.0.18362.0 SDK (C:\Program Files (x86)\Windows Kits\10).
   Building 3 actions with 12 processes...
@@ -10,5 +23,5 @@
     [2/3] UE4Editor-platformer3d_cpp.dll
        Creating library C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp.suppressed.lib and object C:\Projects\Gamedev\_research\3dplatformer_unrealcpp\platformer3d_cpp\Intermediate\Build\Win64\UE4Editor\Development\platformer3d_cpp\UE4Editor-platformer3d_cpp.suppressed.exp
     [3/3] platformer3d_cppEditor.target
-  Total time in Parallel executor: 0.83 seconds
-  Total execution time: 1.42 seconds
+  Total time in Parallel executor: 2.41 seconds
+  Total execution time: 3.49 seconds

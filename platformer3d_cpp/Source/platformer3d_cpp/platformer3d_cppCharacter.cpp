@@ -387,7 +387,7 @@ void Aplatformer3d_cppCharacter::Crouch()
 
 void Aplatformer3d_cppCharacter::ForceStopMovementImmediately()
 {
-	GetCharacterMovement()->StopMovementImmediately();
+	GetCharacterMovement()->StopMovementImmediately();	
 }
 
 
@@ -562,8 +562,20 @@ void Aplatformer3d_cppCharacter::LedgeHeightTracer()
 		{
 			Aplatformer3d_cppCharacter::CheckLedgeTraceResult();
 			Aplatformer3d_cppCharacter::LedgeTraceFront();
-			Aplatformer3d_cppCharacter::LedgeTraceLeft();
-			Aplatformer3d_cppCharacter::LedgeTraceRight();
+			if (IsHanging == true || IsWallRunning == true)
+			{
+
+			}
+			else if (IsHanging == false && IsWallRunning == false)
+			{
+				if (CanMove == true)
+				{
+					Aplatformer3d_cppCharacter::LedgeTraceLeft();
+					Aplatformer3d_cppCharacter::LedgeTraceRight();
+				}
+			}
+				
+			
 		}
 		
 
@@ -611,7 +623,7 @@ void Aplatformer3d_cppCharacter::LedgeTraceFront()
 		const float ImpactY = ImpactPoint.Y;
 		const float ImpactZ = ImpactPoint.Z;
 		const float Distance = HitResult.Distance;
-		GEngine->AddOnScreenDebugMessage(-1, 0.01f, FColor::Cyan, FString::Printf(TEXT("Hit wall: %s | LedgeDistanceCheck: %f | LedgeHeight: %f %f %f"), *HitWall->GetName(), LedgeDistanceCheck, LedgeHeightX, LedgeHeightY, LedgeHeightZ));
+		//GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Cyan, FString::Printf(TEXT("Hit wall: %s | LedgeDistanceCheck: %f | LedgeHeight: %f %f %f"), *HitWall->GetName(), LedgeDistanceCheck, LedgeHeightX, LedgeHeightY, LedgeHeightZ));
 		//GEngine->AddOnScreenDebugMessage(-1, 0.01f, FColor::Cyan, FString::Printf(TEXT("Hit wall: %s | LedgeDistanceCheck: %f | LedgeHeight: %f %f %f"), *HitResult.Actor->GetName(), LedgeDistanceCheck, LedgeHeightX, LedgeHeightY, LedgeHeightZ));
 
 
@@ -622,7 +634,7 @@ void Aplatformer3d_cppCharacter::LedgeTraceLeft()
 {
 	//GEngine->AddOnScreenDebugMessage(-1, 0.01f, FColor::Cyan, "Trace left");
 
-	float ForwardDistance = 70.f;
+	float ForwardDistance = 30.f;
 	float TraceEndHeight = -175.f;
 	float TraceStartHeight = 125.f;
 	float TraceLeftOffset = -50.f;
@@ -643,9 +655,9 @@ void Aplatformer3d_cppCharacter::LedgeTraceLeft()
 
 	FHitResult HitResult;
 
-	HitFront = UKismetSystemLibrary::SphereTraceSingle(GetWorld(), Start, End, TraceRadius, UEngineTypes::ConvertToTraceType(ECC_GameTraceChannel2), false, ActorsToIgnore, EDrawDebugTrace::ForDuration, HitResult, true, FLinearColor::Yellow, FLinearColor::Blue, 0.1f); //ECC_GameTraceChannel2 = LedgeTracer in DefaultEngine.ini
+	HitLeft = UKismetSystemLibrary::SphereTraceSingle(GetWorld(), Start, End, TraceRadius, UEngineTypes::ConvertToTraceType(ECC_GameTraceChannel2), false, ActorsToIgnore, EDrawDebugTrace::ForDuration, HitResult, true, FLinearColor::Yellow, FLinearColor::Blue, 0.1f); //ECC_GameTraceChannel2 = LedgeTracer in DefaultEngine.ini
 
-	if (HitFront == true && HitResult.ImpactNormal.Z > 0.9f)
+	if (HitLeft == true && HitResult.ImpactNormal.Z > 0.9f)
 	{
 		//just printing variables to check it's working
 		LedgeHeight = HitResult.ImpactPoint;
@@ -660,7 +672,7 @@ void Aplatformer3d_cppCharacter::LedgeTraceLeft()
 		const float ImpactY = ImpactPoint.Y;
 		const float ImpactZ = ImpactPoint.Z;
 		const float Distance = HitResult.Distance;
-		GEngine->AddOnScreenDebugMessage(-1, 0.01f, FColor::Cyan, FString::Printf(TEXT("Hit wall: %s | LedgeDistanceCheck: %f | LedgeHeight: %f %f %f"), *HitWall->GetName(), LedgeDistanceCheck, LedgeHeightX, LedgeHeightY, LedgeHeightZ));
+		//GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Cyan, FString::Printf(TEXT("Hit wall: %s | LedgeDistanceCheck: %f | LedgeHeight: %f %f %f"), *HitWall->GetName(), LedgeDistanceCheck, LedgeHeightX, LedgeHeightY, LedgeHeightZ));
 		//GEngine->AddOnScreenDebugMessage(-1, 0.01f, FColor::Cyan, FString::Printf(TEXT("Hit wall: %s | LedgeDistanceCheck: %f | LedgeHeight: %f %f %f"), *HitResult.Actor->GetName(), LedgeDistanceCheck, LedgeHeightX, LedgeHeightY, LedgeHeightZ));
 
 
@@ -671,7 +683,7 @@ void Aplatformer3d_cppCharacter::LedgeTraceRight()
 {
 	//GEngine->AddOnScreenDebugMessage(-1, 0.01f, FColor::Cyan, "Trace right");
 
-	float ForwardDistance = 70.f;
+	float ForwardDistance = 30.f;
 	float TraceEndHeight = -175.f;
 	float TraceStartHeight = 125.f;
 	float TraceRightOffset = 50.f;
@@ -692,9 +704,9 @@ void Aplatformer3d_cppCharacter::LedgeTraceRight()
 
 	FHitResult HitResult;
 
-	HitFront = UKismetSystemLibrary::SphereTraceSingle(GetWorld(), Start, End, TraceRadius, UEngineTypes::ConvertToTraceType(ECC_GameTraceChannel2), false, ActorsToIgnore, EDrawDebugTrace::ForDuration, HitResult, true, FLinearColor::Yellow, FLinearColor::Blue, 0.1f); //ECC_GameTraceChannel2 = LedgeTracer in DefaultEngine.ini
+	HitRight = UKismetSystemLibrary::SphereTraceSingle(GetWorld(), Start, End, TraceRadius, UEngineTypes::ConvertToTraceType(ECC_GameTraceChannel2), false, ActorsToIgnore, EDrawDebugTrace::ForDuration, HitResult, true, FLinearColor::Yellow, FLinearColor::Blue, 0.1f); //ECC_GameTraceChannel2 = LedgeTracer in DefaultEngine.ini
 
-	if (HitFront == true && HitResult.ImpactNormal.Z > 0.9f)
+	if (HitRight == true && HitResult.ImpactNormal.Z > 0.9f)
 	{
 		//just printing variables to check it's working
 		LedgeHeight = HitResult.ImpactPoint;
@@ -709,7 +721,7 @@ void Aplatformer3d_cppCharacter::LedgeTraceRight()
 		const float ImpactY = ImpactPoint.Y;
 		const float ImpactZ = ImpactPoint.Z;
 		const float Distance = HitResult.Distance;
-		GEngine->AddOnScreenDebugMessage(-1, 0.01f, FColor::Cyan, FString::Printf(TEXT("Hit wall: %s | LedgeDistanceCheck: %f | LedgeHeight: %f %f %f"), *HitWall->GetName(), LedgeDistanceCheck, LedgeHeightX, LedgeHeightY, LedgeHeightZ));
+		//GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Cyan, FString::Printf(TEXT("Hit wall: %s | LedgeDistanceCheck: %f | LedgeHeight: %f %f %f"), *HitWall->GetName(), LedgeDistanceCheck, LedgeHeightX, LedgeHeightY, LedgeHeightZ));
 		//GEngine->AddOnScreenDebugMessage(-1, 0.01f, FColor::Cyan, FString::Printf(TEXT("Hit wall: %s | LedgeDistanceCheck: %f | LedgeHeight: %f %f %f"), *HitResult.Actor->GetName(), LedgeDistanceCheck, LedgeHeightX, LedgeHeightY, LedgeHeightZ));
 
 
@@ -730,9 +742,12 @@ void Aplatformer3d_cppCharacter::LedgeTraceAboveWallRunning()
 
 void Aplatformer3d_cppCharacter::CheckLedgeTraceResult()
 {
+	//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Yellow, FString::Printf(TEXT("Check Ledge Trace Result")));
 	if (HitFront == true || HitLeft == true || HitRight == true)
 	{
+		//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Yellow, FString::Printf(TEXT("LedgeHeight: %f %f %f"), LedgeHeight.X, LedgeHeight.Y, LedgeHeight.Z));
 		if (IsWallRunning == false) // FALTAN LOS CHECKS DE SI ES RAILING PERO ESOS LOS AGREGO DESPUES!!!!!!!!!!!!!!!!!!!!!!!!
+			
 			if (IsHanging == true)
 			{
 				Aplatformer3d_cppCharacter::HangFromLedge();
@@ -740,7 +755,8 @@ void Aplatformer3d_cppCharacter::CheckLedgeTraceResult()
 			else if (IsHanging == false)
 			{
 				Aplatformer3d_cppCharacter::MoveToLedge();
-			}
+			}	
+			
 	}
 }
 
@@ -804,10 +820,7 @@ void Aplatformer3d_cppCharacter::MoveComponentToLedge()
 	IsBarHanging = false;
 	
 
-	BpMoveToLedge(); //calling MoveComponentTo function from Blueprints bc doenst work in code
-
-
-	GEngine->AddOnScreenDebugMessage(-1, 50.f, FColor::Yellow, FString::Printf(TEXT("Move to ledge")));
+	BpMoveToLedge(); //calling MoveComponentTo function from Blueprints bc doenst work in code	
 }
 
 
