@@ -88,7 +88,8 @@ protected:
 
 	/*LOCOMOTION VARIABLES*/
 	float RunSpeed = 600.f;
-
+	float MoveForwardValue;
+	float MoveRightValue;
 
 	/*BLUEPRINT IMPLEMENTABLE VARIABLES*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = CharVariables)
@@ -136,6 +137,7 @@ protected:
 	bool WallJumpUp = false;
 
 	//WallTracer results
+	bool TraceHitFrontWall;
 	float FrontWallTraceDistance;
 	FVector WallTraceImpact;
 	FVector WallNormal;
@@ -144,7 +146,7 @@ protected:
 	//WallLeftTracer and WalRightTracer results
 	//common
 	FVector WallTraceSideImpact;
-	FVector WallSideNormal;
+	FVector WallSideNormal;	
 	//left
 	bool TraceHitLeftWall;
 	float LeftWallTraceDistance;
@@ -158,6 +160,8 @@ protected:
 	bool IsWallRunning = false;
 	int WallRunSideType = 0;
 	bool WallRunJumpOff = false;
+	bool ShouldPerformWallRun = true; //used to simulate the Do Once from Unreal Blueprints
+	bool ShouldStopWallRun = true; //used to simulate the Do Once from Unreal Blueprints
 
 
 
@@ -195,6 +199,9 @@ public:
 	void OnSphereTracerOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 	bool CanTrace = false;
+
+	//reset platforming variables
+	void ResetPlatformingVars();
 
 	/*WALL TRACING FUNCTIONS AND VARIABLES*/
 	//trace from character to get wall normal
@@ -257,8 +264,23 @@ public:
 	
 
 	/*WALL RUNNING FUNCTIONS AND VARIABLES*/
+	//start wall run
+	void StartWallRun();
 	//stop wall run
 	void StopWallRun();
+	//wall run style up
+	void WallRunUp();
+	//wall run style left
+	void WallRunLeft();
+	//wall run stle right
+	void WallRunRight();
+	//stop wall run up
+	void StopWallRunUp();
+	//stop wall run left
+	void StopWallRunLeft();
+	//stop wall run right
+	void StopWallRunRight();
+
 
 	//TIMERS - it should be safe to use a single timer, but that will be done in a future version
 	FTimerHandle MoveToLedgeTimerHandle;

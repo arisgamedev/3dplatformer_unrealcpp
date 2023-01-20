@@ -84,6 +84,9 @@ void Aplatformer3d_cppCharacter::SetupPlayerInputComponent(class UInputComponent
 
 	PlayerInputComponent->BindAction("Crouch", IE_Pressed, this, &Aplatformer3d_cppCharacter::Crouch);
 
+	PlayerInputComponent->BindAction("WallRun", IE_Pressed, this, &Aplatformer3d_cppCharacter::StartWallRun);
+	PlayerInputComponent->BindAction("WallRun", IE_Released, this, &Aplatformer3d_cppCharacter::StopWallRun);
+
 	PlayerInputComponent->BindAxis("MoveForward", this, &Aplatformer3d_cppCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &Aplatformer3d_cppCharacter::MoveRight);
 
@@ -116,6 +119,8 @@ void Aplatformer3d_cppCharacter::BeginPlay()
 void Aplatformer3d_cppCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	GEngine->AddOnScreenDebugMessage(-1, .01f, FColor::Cyan, FString::Printf(TEXT("Trace Front: %s | Trace left: %s | Trace right: %s"), HitFront ? TEXT("true") : TEXT("false"), HitLeft ? TEXT("true") : TEXT("false"), HitRight ? TEXT("true") : TEXT("false")));
 
 	//perform traces for platforming if CanTrace is true, meaning the character is near platformable objects
 	if (CanTrace == true)
@@ -170,6 +175,10 @@ void Aplatformer3d_cppCharacter::LedgeJumpOffWall()
 	IsHanging = false;
 	//make vector for launch character
 	FVector LaunchVelocity = ((WallNormal * (RunSpeed * 1.5f)) + FVector(0.f, 0.f, RunSpeed * 1.5f));
+
+	HitFront = false;
+	HitLeft = false;
+	HitRight = false;
 
 	GetCharacterMovement()->GravityScale = 0.f;
 	GetCharacterMovement()->SetMovementMode(MOVE_Walking);
@@ -329,6 +338,7 @@ void Aplatformer3d_cppCharacter::LookUpAtRate(float Rate)
 
 void Aplatformer3d_cppCharacter::MoveForward(float Value)
 {
+	MoveForwardValue = Value;
 	if (IsHanging == false)
 	{
 		if ((Controller != nullptr) && (Value != 0.0f))
@@ -351,6 +361,7 @@ void Aplatformer3d_cppCharacter::MoveForward(float Value)
 
 void Aplatformer3d_cppCharacter::MoveRight(float Value)
 {	
+	MoveRightValue = Value;
 	if (IsHanging == false)
 	{
 		if ((Controller != nullptr) && (Value != 0.0f))
@@ -412,6 +423,10 @@ void Aplatformer3d_cppCharacter::OnSphereTracerOverlapEnd(UPrimitiveComponent* O
 
 /*WALL TRACING FUNCTIONS*/
 
+void Aplatformer3d_cppCharacter::ResetPlatformingVars()
+{
+}
+
 void Aplatformer3d_cppCharacter::WallTracer()
 {
 	Aplatformer3d_cppCharacter::WallLeftTracer();
@@ -430,6 +445,7 @@ void Aplatformer3d_cppCharacter::WallTracer()
 	FHitResult HitResult;
 
 	WallTrace = UKismetSystemLibrary::SphereTraceSingle(GetWorld(), Start, End, TraceRadius, UEngineTypes::ConvertToTraceType(ECC_GameTraceChannel2), false, ActorsToIgnore, EDrawDebugTrace::ForDuration, HitResult, true, FLinearColor::Red, FLinearColor::Green, 0.1f); //ECC_GameTraceChannel2 = LedgeTracer in DefaultEngine.ini
+	TraceHitFrontWall = WallTrace;
 
 	if (WallTrace == true)
 	{
@@ -886,11 +902,100 @@ void Aplatformer3d_cppCharacter::SetCanGrabLedge()
 	CanGrabLedge = true;
 }
 
-void Aplatformer3d_cppCharacter::StopWallRun()
-{
-}
 
 
 /*WALL RUNNING FUNCTIONS AND VARIABLES*/
+
+
+void Aplatformer3d_cppCharacter::StartWallRun()
+{
+	if (IsHanging == false)
+	{
+		if (GetCharacterMovement()->MovementMode == MOVE_Walking)
+		{
+			if (ShouldPerformWallRun == true)
+			{
+				ShouldPerformWallRun = false;
+				if (TraceHitFrontWall == true && FrontWallTraceDistance < 50.f && TraceHitLeftWall == false && TraceHitRightWall == false)
+				{
+					Aplatformer3d_cppCharacter::WallRunUp();
+				}
+				else
+				{
+					Aplatformer3d_cppCharacter::ResetPlatformingVars();
+					if (TraceHitLeftWall == true && LeftWallTraceDistance < 50.f)
+					{
+						Aplatformer3d_cppCharacter::WallRunLeft();
+					}
+					else if (TraceHitRightWall == true && RightWallTraceDistance < 50.f)
+					{
+						Aplatformer3d_cppCharacter::WallRunRight();
+					}
+					else
+					{
+						ShouldPerformWallRun = true;
+					}
+				}
+			}
+		}
+	}
+}
+
+void Aplatformer3d_cppCharacter::StopWallRun()
+{
+	if (IsWallRunning == true)
+	{
+		if (IsHanging == false)
+		{
+			ShouldStopWallRun = false;
+			Aplatformer3d_cppCharacter::ForceStopMovementImmediately();
+			switch (WallRunSideType)
+			{
+			case 1:
+				Aplatformer3d_cppCharacter::StopWallRunUp();
+				break;
+			case 2:
+				Aplatformer3d_cppCharacter::StopWallRunLeft();
+				break;
+			case 3:
+				Aplatformer3d_cppCharacter::StopWallRunRight();
+				break;
+			}
+		}
+	}
+}
+
+void Aplatformer3d_cppCharacter::WallRunUp()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Yellow, FString::Printf(TEXT("wall run up")));
+	if (abs(MoveForwardValue) + abs(MoveRightValue) > 0.f)
+	{
+		WallRunSideType = 1;
+		GetCharacterMovement()->SetMovementMode(MOVE_Flying);
+	}
+}
+
+void Aplatformer3d_cppCharacter::WallRunLeft()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Yellow, FString::Printf(TEXT("wall run left")));
+}
+
+void Aplatformer3d_cppCharacter::WallRunRight()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Yellow, FString::Printf(TEXT("wall run right")));
+}
+
+void Aplatformer3d_cppCharacter::StopWallRunUp()
+{
+}
+
+void Aplatformer3d_cppCharacter::StopWallRunLeft()
+{
+}
+
+void Aplatformer3d_cppCharacter::StopWallRunRight()
+{
+}
+
 
 
